@@ -1,5 +1,6 @@
 Main = {};
-$(function() { 
+$(function() {
+    $('#ribbon').ribbon();
     Main.toolbar = $("#tools").first();
     Main.weightSetter = $("#set-weight").first();
     Main.thresholdSetter = $("#set-threshold").first();
@@ -16,8 +17,8 @@ $(function() {
     //Tool selection events.
     Main.toolbar.find("#neuron, #eraser, #connect").on("click", function(e) {
         var selected = Main.toolbar.data("selected");
-        if (selected !== e.target) {
-            Main.toolbar.data("selected", e.target);
+        if (selected !== e.currentTarget) {
+            Main.toolbar.data("selected", e.currentTarget);
             Main.canvas.css("cursor", "crosshair");
             Main.layer.get(".neuron").apply("setDraggable", false);
         }
@@ -25,7 +26,9 @@ $(function() {
             Main.toolbar.removeData("selected");
             Main.canvas.css("cursor", "auto");
             Main.layer.get(".neuron").apply("setDraggable", true);
-        } 
+            
+        }
+        $(e.currentTarget).toggleClass('sel');
     });
 
     //Add neuron on click.
