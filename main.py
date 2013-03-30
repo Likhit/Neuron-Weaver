@@ -16,7 +16,7 @@
 #
 import webapp2
 from utilities import *
-from google.appengine.ext import db
+# from google.appengine.ext import db
 
 
 class HomePage(BaseRequestHandler):
@@ -26,9 +26,18 @@ class HomePage(BaseRequestHandler):
 	def get(self):
 		self.render()
 
+class Error404(BaseRequestHandler):
+    environment = getEnvironment(__file__)
+    template = '404.html'
+
+    def get(self):
+        self.error(404)
+        self.render()
+
 
 URLMap.add(
-	('/', HomePage)
+	('/', HomePage),
+    ('/.*', Error404)
 	)
 
 app = webapp2.WSGIApplication(utils.URLMap.handler_list, debug=True)

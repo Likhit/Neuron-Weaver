@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -10,120 +10,87 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- Open graph poperties -->
+        <meta property="og:title" content="Neuron Weaver">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="http://www.stringtensor.appspot.com/">
+        <meta property="og:image" content="http://www.stringtensor.appspot.com/favicon.ico">
+        <meta property="og:description" content="Create, run and train neural networks using an intuitive grahical user interface.">
 
         <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/ribbon.css">
-        <link rel="stylesheet" href="css/soft_button.css">
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon144x144.png" />
+        <link rel="favicon" href="favicon.ico">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
     </head>
-    <body>
+    <body class="hidden">
         <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to run this application.</p>
         <![endif]-->
-
-        <!-- Add your site or application content here -->
-        <div id="ribbon">
-            <span class="ribbon-window-title"></span>
-            <div class="ribbon-tab file" id="file-tab">
-                <span class="ribbon-title">Neuron Weaver</span>
-                <div class="ribbon-backstage">
-                    This is the Backstage.<br>
-                    <div class="button big">
-                        <img src="img/ribbon/normal/open-page.png" alt="Open" />
-                        <span class="label">Open</span>
-                        <span class="desc">Open a document from your computer</span>
-                    </div><br/>
-                    <div class="button big">
-                        <img src="img/ribbon/normal/save-page.png" alt="Save" />
-                        <span class="label">Save</span>
-                        <span class="desc">Save your document to your computer</span>
+        <div id="frontstage">
+            <div class="ribbon">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="file"><a href="#backstage" data-toggle="tab">NEURON WEAVER</a></li>
+                        <li class="active"><a id="build" href="#tools" data-toggle="tab">BUILD</a></li>
+                        <li><a id="run" href="#run-tab" data-toggle="tab">RUN</a></li>
+                        <li class="pull-right"><a class="close" id="toggle-ribbon" data-toggle="tab"><i class="icon-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        {% include "html/frontstage/tools.html" %}
+                        {% include "html/frontstage/run.html" %}
                     </div>
                 </div>
             </div>
-
-            <div class="ribbon-tab" id="tools">
-                <span class="ribbon-title">Build</span>
-                <div class="ribbon-section">
-                    <span class="section-title">Neuron</span>
-                    <div class="ribbon-button ribbon-button-large" id="neuron">
-                        <span class="button-title">Hebb<br/>Neuron</span>
-                        <span class="button-help">This button will add a table to your document.</span>
-                        <img class="ribbon-icon ribbon-normal" src="img/ribbon/normal/new-table.png">
-                    </div>
-                </div>
-                
-                <div class="ribbon-section">
-                    <span class="section-title">Eraser</span>
-                    <div class="ribbon-button ribbon-button-large" id="eraser">
-                        <span class="button-title">Erase</span>
-                        <span class="button-help">This button will add a page to your document.</span>
-                        <img class="ribbon-icon ribbon-normal" src="img/ribbon/normal/new-page.png">
-                    </div>
-                </div>
-                
-                <div class="ribbon-section">
-                    <span class="section-title">Connect</span>
-                    <div class="ribbon-button ribbon-button-small" id="connect">
-                        <span class="button-title">Connection</span>
-                        <span class="button-help">This button will run the program.</span>
-                        <img class="ribbon-icon ribbon-normal" src="img/ribbon/normal/run.png">
-                    </div>
+            
+            <div class="page">
+                <div id="canvas-container">
+                    <!-- Used by Kinetic.js to put the canvas in. -->
                 </div>
             </div>
 
-            <div class="ribbon-tab" id="next-tab">
-                <span class="ribbon-title">Run</span>
-                <div class="ribbon-section">
-                    <span class="section-title">More Stuff</span>
-                    <div class="ribbon-button ribbon-button-large">
-                        <span class="button-title">Other<br/>Feature</span>
-                        <span class="button-help">This button will do something else.</span>
-                        <img class="ribbon-icon ribbon-normal" src="img/ribbon/normal/bullet-orange.png" />
+            <div>
+                {% include "html/forms/set-weights-or-thresholds.html" %}
+                {% include "html/forms/set-inputs.html" %}
+                {% include "html/forms/set-training-data.html" %}
+            </div>
+
+            <div class="invisible">
+                EVIL STYLING PURPOSE DIV. PUSH DOWN TEXT. TO REMAIN INVISIBLE.<br><br>
+            </div>
+
+            <footer class="sticky-bottom">
+                Made by <a href="https://www.facebook.com/likhitd">Likhit Dharmapuri</a>.
+                <span id="status-bar" class="pull-right"></span>
+            </footer>
+        </div>
+
+        <div id="backstage">
+            <div class="tabbable tabs-left office-backstage">
+                <ul class="nav nav-tabs">
+                    <li><a href="#frontstage" data-toggle="tab"><img class="back" src="img/back.png" alt="Go to frontstage"></a></li>
+                    <li><a href="#disabled" class="disabled" data-toggle="tab">New</a></li>
+                    <li><a href="#disabled" class="disabled" data-toggle="tab">Save</a></li>
+                    <li><a href="#help-tab" data-toggle="tab">Help</a></li>
+                    <li class="active"><a href="#about-tab" data-toggle="tab">About</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="disabled">
+                        Sorry, this feature has not yet been implemented.
                     </div>
-                    <div class="ribbon-button ribbon-button-large disabled" id="other-btn-2">
-                        <span class="button-title">Remove<br/>Table</span>
-                        <span class="button-help">This button will remove the selected table from your document.</span>
-                        <img class="ribbon-icon ribbon-normal" src="img/ribbon/normal/delete-table.png" />
-                    </div>
+                    {% include "html/backstage/help.html" %}
+                    {% include "html/backstage/about.html" %}
                 </div>
             </div>
         </div>
-        
-        <div class="page" id="canvas-container"></div>
 
-        <div id="set-weight" class="sticky-bottom input-form-bottom hidden">
-            <form>
-                <fieldset>
-                    <label>Weight:&nbsp;&nbsp;&nbsp;</label><input type="text">
-                    <button type="submit" class="button">Set</button>
-                </fieldset>
-            </form>
-        </div>
-        <div id="set-threshold" class="sticky-bottom input-form-bottom hidden">
-            <form>
-                <fieldset>
-                    <label>Threshold:&nbsp;&nbsp;&nbsp;</label><input type="text">
-                    <button type="submit" class="button">Set</button>
-                </fieldset>
-            </form>
-        </div>
-
-        <footer class="sticky-bottom">
-            Made by <a href="https://www.facebook.com/likhitd">Likhit Dharmapuri</a> using <a href="http://html5boilerplate.com/">HTML5 Boilerplate</a>, <a href="http://www.kineticjs.com">Kinetic.js</a> and <a href="https://github.com/OkGoDoIt/Office-Ribbon-2010">Office-Ribbon</a>. 
-        </footer>
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.1.min.js"><\/script>')</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/vendor/kinetic.min.js"></script>
-        <script src="js/vendor/ribbon.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
         
         <script src="js/main.js"></script>
         <script src="js/Neuron.js"></script>
@@ -139,4 +106,3 @@
         </script>
     </body>
 </html>
-

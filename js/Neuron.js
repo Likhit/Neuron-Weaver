@@ -17,7 +17,8 @@ Main.Neuron.prototype.addToLayer = function(layer, x, y) {
     var hitRegion = new Kinetic.Circle({
         x: x,
         y: y,
-        radius: 40
+        radius: 40,
+        name: "padding"
     });
     
     var circle = new Kinetic.Circle({
@@ -26,11 +27,40 @@ Main.Neuron.prototype.addToLayer = function(layer, x, y) {
         radius: 25,
         stroke: "black",
         fill: "rgba(255, 255, 255, 0)",
-        strokeWidth: 3
+        strokeWidth: 3,
+        name: "body"
+    });
+
+    var thresholdBox = new Kinetic.Text({
+        x: x - 25,
+        y: y + 30,
+        text: "θ:" + this.threshold,
+        fontSize: 12,
+        fontFamily: "Times New Roman",
+        fill: "black",
+        fontStyle: "bold",
+        width: 50,
+        height: 50,
+        align: "center",
+        name: "threshold"
+    });
+
+    var codeBox = new Kinetic.Text({
+        x: x - 25,
+        y: y - 40,
+        text: "#" + this.code,
+        fontSize: 12,
+        fontFamily: "Times New Roman",
+        fill: "black",
+        fontStyle: "bold",
+        width: 50,
+        height: 50,
+        align: "center",
+        name: "code"
     });
 
     var outputBox = new Kinetic.Text({
-        x: x - 25,
+        x: x - 15,
         y: y - 15,
         text: "",
         fontSize: 25,
@@ -39,10 +69,25 @@ Main.Neuron.prototype.addToLayer = function(layer, x, y) {
         fontStyle: "bold",
         width: 50,
         height: 50,
-        align: "center"
+        align: "center",
+        name: "output"
     });
 
-    this.gui.add(hitRegion).add(circle).add(outputBox);
+    var netBox = new Kinetic.Text({
+        x: x - 35,
+        y: y - 7,
+        text: "",
+        fontSize: 10,
+        fontFamily: "Times New Roman",
+        fill: "black",
+        fontStyle: "bold",
+        width: 50,
+        height: 50,
+        align: "center",
+        name: "net"
+    });
+
+    this.gui.add(hitRegion).add(circle).add(thresholdBox).add(outputBox).add(codeBox).add(netBox);
     this.addEventHandlers();
     try {
         layer.add(this.gui).draw();
@@ -51,15 +96,31 @@ Main.Neuron.prototype.addToLayer = function(layer, x, y) {
     }
 };
 
-Main.Neuron.prototype.redraw = function() {
-    this.gui.getLayer().draw();
-}
-
 Main.Neuron.prototype.fire = function() {
     var sum = this.inputs.length === 0 ? NaN : this.inputs.reduce(function(x, a){return x + a;}, 0);
-    this.output = isNaN(sum) ? NaN : sum >= this.threshold ? 1 : 0;
-    this.gui.children[2].setText(isNaN(this.output) ? "" : this.output);
+    this.setNet(sum);
+    this.setOutput(isNaN(sum) ? NaN : sum >= this.threshold ? 1 : 0);
     return this.output;
+};
+
+Main.Neuron.prototype.setThreshold = function(val) {
+    this.threshold = val;
+    this.gui.get(".threshold")[0].setText("θ:" + val);
+    this.gui.getLayer().draw();
+};
+
+Main.Neuron.prototype.setOutput = function(val) {
+    this.output = val;
+    var newFill = "rgba(255, 255, 255, 0)";
+    if (!isNaN(this.output)) {
+        newFill = "rgba(255, 215, 0, 25)";
+    }
+    this.gui.get(".output").apply("setText", isNaN(val) ? "" : val);
+    this.gui.get(".body").apply("setFill", newFill);
+};
+
+Main.Neuron.prototype.setNet = function(val) {
+    this.gui.get(".net").apply("setText", isNaN(val) ? "" : "Σ:" + val);
 };
 
 Main.Neuron.prototype.addEventHandlers = function() {
@@ -71,15 +132,17 @@ Main.Neuron.prototype.addEventHandlers = function() {
             var layer = $this.gui.getLayer();
             $this.gui.remove();
             layer.draw();
+            Main.statusbar.text("Neuron " + $this.code + " erased.");
         }
     });
 
     this.gui.on("click.set-threshold", function(e) {
         var selected = Main.toolbar.data("selected");
         if (!selected) {
-            Main.thresholdSetter.removeClass("hidden")
+            Main.weightOrThresholdSetter.removeClass("hidden")
                 .find("input").val($this.threshold).focus();
-            Main.thresholdSetter.data("current-neuron", $this);
+            Main.weightOrThresholdSetter.find("span.add-on>strong").text("Threshold:");
+            Main.weightOrThresholdSetter.data("current-neuron", $this);
         }
     });
 
@@ -98,75 +161,63 @@ Main.Neuron.prototype.addEventHandlers = function() {
     });
 };
 
-Main.InputNeuron = function(neuron) {
-    if (neuron !== undefined) {
-        this.code = neuron.code;
-        this.threshold = 1;
-        this.inputs = neuron.inputs;
-        this.output = neuron.output;
-        var position = neuron.gui.children[0].getPosition();
-        this.addToLayer(Main.layer, position.x, position.y);
-        neuron.gui.destroy();
-    }
-    else {
-        Main.Neuron.call(this);
-    }
-    this.threshold = 1;
-}
+Main.addInputTraits = function(neuron) {
+    neuron.setThreshold(1);
 
-Main.InputNeuron.prototype = Object.create(Main.Neuron.prototype);
+    var position = neuron.gui.get(".padding")[0].getPosition();
+    var x = position.x, y = position.y;
 
-Main.InputNeuron.prototype.addToLayer = function(layer, x, y) {
-    try {
-       Main.Neuron.prototype.addToLayer.call(this, null, x, y);
-    } catch(Error) {
-        //Do nothing. Works as expected. I don't want to add the neuron to the layer yet.
-    }
-
-    var inputBox = new Kinetic.Rect({
-        x: x - 75,
-        y: y - 12.5,
-        width: 25,
-        height: 25,
-        stroke: "black",
-        strokeWidth: 2
+    var inputTraits = new Kinetic.Group({
+        name: "input-traits"
     });
 
-    var inputText = new Kinetic.Text({
-        x: x - 75,
-        y: y - 10,
-        text: "",
-        fontSize: 18,
-        fontFamily: "Times New Roman",
-        fill: "blue",
-        width: 25,
-        height: 25,
-        align: "center",
-        name: "inp"
+    //Draw an arrow.
+    var line1 = new Kinetic.Line({
+        points: [[x - 50, y], [x - 30, y]],
+        stroke: "black",
+        strokeWidth: 1.5
     });
 
-    var line = new Kinetic.Line({
-        points: [[x - 50, y], [x - 25, y]],
+    var line2 = new Kinetic.Line({
+        points: [[x - 35, y - 5], [x - 30, y]],
         stroke: "black",
-        strokeWidth: 2
+        strokeWidth: 1.5
+    });
+
+    var line3 = new Kinetic.Line({
+        points: [[x - 35, y + 5], [x - 30, y]],
+        stroke: "black",
+        strokeWidth: 1.5
     });
     
-    this.gui.setDraggable(true);
-    this.gui.add(inputText).add(inputBox).add(line);
-    layer.add(this.gui).draw();
+    inputTraits.add(line1).add(line2).add(line3);
+    neuron.gui.add(inputTraits);
 };
 
-Main.InputNeuron.prototype.setInput = function(val) {
-    this.input = [val];
-    var inputText = this.gui.get(".inp")[0];
-    inputText.setText(val);
-};
+Main.addOutputTraits = function(neuron) {
+    var position = neuron.gui.get(".padding")[0].getPosition();
+    var x = position.x, y = position.y;
 
-Main.InputNeuron.prototype.addEventHandlers = function() {
-    Main.Neuron.prototype.addEventHandlers.call(this);
-    var $this = this;
-
-    this.gui.get(".inp")[0].on("click", function(e) {
-        //Input setting box.
+    var innerCircle = new Kinetic.Circle({
+        x: x,
+        y: y,
+        radius: 23,
+        stroke: "black",
+        fill: "rgba(255, 255, 255, 0)",
+        strokeWidth: 2,
+        name: "output-traits"
     });
+
+    var body = neuron.gui.get(".body");
+    body.apply("setStrokeWidth", 2);
+    body.apply("setRadius", 27);
+    neuron.gui.add(innerCircle);
+};
+
+Main.removeTraits = function(neuron) {
+    neuron.gui.get(".output-traits").apply("destroy");
+    neuron.gui.get(".input-traits").apply("destroy");
+    var body = neuron.gui.get(".body");
+    body.apply("setStrokeWidth", 3);
+    body.apply("setRadius", 25);
 };

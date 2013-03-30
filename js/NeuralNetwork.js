@@ -27,10 +27,12 @@ Main.NeuralNetwork = function(neurons, connections) {
         if (isInputNode[this.neurons[i].code] !== false) {
             this.inputNodes.push(i);
             //Convert this neuron into a neuron of type InputNeuron.
-            this.neurons[i] = new Main.InputNeuron(this.neurons[i]);
+            Main.addInputTraits(this.neurons[i]);
         }
         if (isOutputNode[this.neurons[i].code] !== false) {
             this.outputNodes.push(i);
+            //Convert this neuron into a neuron of type OutputNeuron.
+            Main.addOutputTraits(this.neurons[i]);
         }
     }
 
@@ -50,7 +52,10 @@ Main.NeuralNetwork.prototype.propogateOutputs = function() {
         this.neurons[i].inputs = []; //Reset the input buffer.
         var weights = this.weights[this.neurons[i].code];
         for (var j in weights) {
-            this.neurons[i].inputs.push(weights[j]*this.findNeuronByCode(parseInt(j, 10)).output);
+            var input = this.findNeuronByCode(parseInt(j, 10)).output;
+            if (!isNaN(input) && input !== undefined) {
+                this.neurons[i].inputs.push(weights[j]*input);
+            }
         }
     }
 };
@@ -68,4 +73,11 @@ Main.NeuralNetwork.prototype.findNeuronByCode = function(code) {
         }
     }
     return -1;
+};
+
+Main.NeuralNetwork.prototype.dismantle = function(code) {
+    for (var i = 0, l = this.neurons.length; i < l; i++) {
+        Main.removeTraits(this.neurons[i]);
+    }
+    Main.layer.draw();
 };

@@ -92,52 +92,339 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-a {
-    color: #eeeeee;
-    text-decoration: underline;
+
+.btn,
+.input-form-bottom .input-prepend.input-append .add-on,
+.input-form-bottom .input-prepend.input-append .btn {
+    border-radius: 0;
+    background-color: #f5f5f5;
 }
 
-a:hover,
-a:active {
-  color: #fff;
+.page {
+    border: 1px solid #a5acb5;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 160px;
+    padding: 10px 0px 10px 0px;
+    background: #FFF;
+    border: 1px solid #a5a5a5;
 }
 
-canvas {
-    border: 1px solid #000;
+.collapsed-page {
+    margin-top: 50px;
 }
 
-.input-form-bottom {
-    background: #e5e5e5;
-    height: 50px;
-    padding-top: 5px;
-    padding-left: 5px;
-    border-top: 1px solid #a5a5a5;
-    font-family: "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
-    font-size: 12pt;
-    font-weight: 600;
+#canvas-container {
+    width: 97.5%;
+    margin: 0 auto;
 }
 
 footer {
-    background: #2860b3;
-    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#4488e5), to(#2860b3));
-    background: -moz-linear-gradient(#4488e5, #2860b3);
-    -pie-background: linear-gradient(#4488e5, #2860b3);
+    background: rgba(43, 87, 154, 105);
     border: 1px solid #1f48a1;
    
-    padding-left: 12px;
+    padding-left: 5px;
     
     height: 20px;
     cursor: default;
     
-    font-family: "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
     font-size: 10pt;
     color: #fff;
+}
+
+footer a {
+    color: inherit;
+    font-family: monospace;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+footer a:hover,
+footer a:active {
+  color: inherit;
+}
+
+footer .pull-right {
+    margin-right: 20px;
 }
 
 .sticky-bottom {
     width: 100%;
     position: fixed;
     bottom: 0;
+}
+
+.input-form-bottom {
+    background: #f5f5f5;
+    background-color: #fbfbfb;
+    height: 37px;
+    padding-top: 5px;
+    padding-left: 5px;
+    border-top: 1px solid #a5a5a5;
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+    font-size: 12pt;
+    bottom: 0px;
+}
+
+.table-form {
+    height: 220px;
+    overflow-y: auto;
+    border-top: 2px solid #a5a5a5;
+    padding: 10px;
+}
+
+.input-form-bottom table {
+    margin-right: 10px;
+}
+
+.table-form th,
+.table-form input[type="text"] {
+    width: 6em;
+    margin-bottom: 2px;
+    font-size: 11px;
+}
+
+/*-------------Ribbon.css---------------*/
+.ribbon {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+}
+
+.ribbon * {
+    font-family: Calibri, 'Segoe UI', Verdana, Tahoma, Helvetica, sans-serif;
+}
+
+.ribbon .nav-tabs {
+    background: #fbfbfb;
+    margin-bottom: 0;
+}
+
+.ribbon .nav-tabs > li {
+    margin-left: 5px;
+}
+
+.ribbon .nav-tabs a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 0;
+    color: #505050;
+    font-size: 11pt;
+}
+
+.ribbon .nav-tabs :not(.active) a:hover {
+    background-color: transparent;
+    color: #5050bf;
+    border: 0;
+}
+
+.ribbon .nav-tabs .file {
+    margin-left: 0;
+    background: rgba(43, 87, 154, 255);
+    box-shadow: 1px 0px 1px 0px black;
+}
+
+.ribbon .nav-tabs .file *{
+    background: rgba(43, 87, 154, 255);
+    border: 0;
+}
+
+.ribbon .nav-tabs .file a {
+    color: white;
+}
+
+.ribbon .nav-tabs .file:hover,
+.ribbon .nav-tabs .file a:hover {
+    color: white;
+    background:  rgb(68, 110, 172);
+    border: 0;
+}
+
+.ribbon .tab-content {
+    background-color: #fdfdfd;
+    border-bottom: 2px solid #c8c8c8;
+    height: 110px;
+    overflow: hidden;
+}
+
+.ribbon .section-content {
+    margin-left: -30px;
+    margin-top: 10px;
+    height: 75px;
+}
+
+.ribbon .section-content * {
+    font-size: 10pt;
+    border-radius: 0;
+}
+
+.ribbon [class^="control"] {
+    background-color: transparent;
+    box-shadow: none;
+    border: 0;
+}
+
+.ribbon .section-content button:hover {
+    background-color: rgba(183, 230, 241, 0.46);
+    border: 1px solid rgb(150, 192, 202);
+    padding: 0px 5px 0px 05px;
+}
+
+.ribbon .sel {
+    background-color: rgba(154, 210, 241, 0.7);
+    border: 1px solid rgb(150, 192, 202);
+    padding: 0px 5px 0px 05px;
+}
+
+.ribbon .control-large img {
+    width: 32px;
+    height: 32px;
+}
+
+.ribbon .control-small img {
+    width: 16px;
+    height: 16px;
+    float: left;
+}
+
+.ribbon .section-name {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 9pt;
+    color: #000;
+}
+
+.ribbon .section-seperator {
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #fff;
+    height: 95px;
+    position: relative;
+    width: 0;
+    float: left;
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/*------------Office backstage--------------------*/
+.office-backstage {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+    color: #505050;
+}
+
+.office-backstage img.back {
+    width: 55px;
+    height: 55px;
+}
+
+.office-backstage ul.nav-tabs {
+    height: 100%;
+    width: 140px;
+    background-color: rgba(43, 87, 154, 105);
+    margin: 0;
+    border: 1px solid rgba(43, 87, 154, 255);
+}
+
+.office-backstage .nav-tabs li {
+    margin: 0;
+}
+
+.office-backstage .nav-tabs li a {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: rgba(43, 87, 154, 105);
+    color: white;
+}
+
+.office-backstage .nav-tabs li a:hover {
+    background-color: rgb(28, 73, 141);
+    color: white;
+    border: 0;
+}
+
+.office-backstage .nav-tabs li.active a {
+    background-color: rgb(68, 110, 172);
+    color: white;
+    border: 0;
+}
+
+.office-backstage .nav-tabs li a.disabled {
+    opacity: 0.5;
+}
+
+.office-backstage .nav-tabs li a.disabled:hover {
+    background-color: transparent;
+    cursor: default;
+}
+
+.office-backstage .tab-content {
+    background-color: #fbfbfb;
+    height: 100%;
+    padding: 30px;
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+}
+
+.office-backstage .tab-pane header {
+    border-radius: 0;
+    background-color: transparent;
+    margin-bottom: 20px;
+}
+
+.office-backstage .tab-pane header h1 {
+    font-weight: 100;
+    font-size: 32pt;
+}
+
+.office-backstage h2 {
+    font-size: 21pt;
+    margin: 0;
+}
+
+.office-backstage h3 {
+    font-size: 15pt;
+    margin: 0;
+}
+
+.office-backstage article h2 {
+    border-bottom: 1px solid #eee;
+}
+
+#about-tab h2 {
+    font-size: 15pt;
+    font-weight: 400;
+}
+
+#about-tab ul.media-list {
+    margin-top: 25px;
+}
+
+#about-tab .media-list li {
+    border-bottom: 1px solid #eee;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+#about-tab .media-list li:hover {
+    background-color: rgba(183, 230, 241, 0.46);
+}
+
+#about-tab .media-list a,
+#about-tab .media-list a:hover,
+#about-tab .media-list a:active,
+#about-tab .media-list a:visited,
+#about-tab .media-list a:focus {
+    text-decoration: none;
+    color: inherit;
+}
+
+#help-tab .steps {
+    margin-left: 30px;
 }
 
 /* ==========================================================================

@@ -1,0 +1,110 @@
+<div class="tab-pane" id="help-tab">
+    <header class="tab-header">
+        <h1>Help</h1>
+        <p>
+            Neuron weaver is a GUI based tool which lets you build, run and train neural networks easily. The following documentation should help you get started. It will be helpful to also open this application in another tab and try out the actions while reading the documentation.
+        </p>
+    </header>
+    <article>
+        <div>
+            <h2>Build a neural network</h2>
+            <p>The first step is to build a neural network according to our desired architecture. There are 3 tools present in the BUILD tab to help us do so; namely the Neurons(currently only the Hebb neuron implemented), the Connection and the Eraser.</p>
+            <div class="steps">
+                <h3>Add a neuron:</h3>
+                <ul>
+                    <li>To start building a network select the Hebb neuron from the ribbon at the top.</li>
+                    <li>On moving the mouse pointer over the canvas(page) at the center you will see that the mouse cursor has turned into cross-hair.</li>
+                    <li>Click anywhere on the canvas to place a neuron.</li>
+                    <li>The neuron should now be placed on the canvas. You can place more neurons by clicking on the canvas again(preferably at a different spot).</li>
+                    <li>
+                        Each neuron has 2 components displayed on the screen.
+                        <ul>
+                            <li>On the top, next to the #, is the neuron's code i.e. a number to uniquely represent the neuron.</li>
+                            <li>At the bottom of the neuron, next to θ, is the threshold value of the neuron. The Hebb neuron follows the simple threshold function which fires if the net input is >= the threshold value of the neuron. </li>
+                        </ul>
+                    </li>
+                    <li>Once done, deselect the Hebb neuron from the ribbon.</li>
+                    <li>You van add more neurons anytime by reselecting the Hebb neuron tool.</li>
+                </ul>
+            </div>
+            <div class="steps">
+                <h3>Drag a neuron to a new location:</h3>
+                <ul>
+                    <li>Click on the neuron already placed on the canvas and hold the mouse down.</li>
+                    <li>With the mouse held down, drag the mouse pointer across the canvas to the desired location.</li>
+                    <li>Place the neuron in this new location by letting go the mouse pointer.</li>
+                </ul>
+            </div>
+            <div class="steps">
+                <h3>Add a connection between two neurons:</h3>
+                <ul>
+                    <li>Select the Connection tool from the ribbon.</li>
+                    <li>On the canvas, click on the boundary of the neuron you want to make a connection from.</li>
+                    <li>While holding the mouse button down, move the mouse pointer across the neuron to connect to.</li>
+                    <li>At the boundary of the second neuron, leave the mouse button.</li>
+                    <li>If a connection was made successfully, the connection will turn black color. If not, erase the connection and make a new connection. Make sure to start and end the connection from near the boundaries of the neurons.</li>
+                    <li>You can continue adding connections as long as the Connection tool is selected.</li>
+                    <li>Near this new connection will be a number representing the weight of this connection. You can drag-drop the weight number to any desired location.</li>
+                    <li>Click again on the Connection tool from the ribbon to deselect it.</li>
+                </ul>
+            </div>
+            <div class="steps">
+                <h3>Erase a neuron or connection:</h3>
+                <ul>
+                    <li>Select the Eraser from the ribbon.</li>
+                    <li>To erase a neuron, just click on the neuron.</li>
+                    <li>To erase a connection, click on the weight of the connection.</li>
+                    <li>Click again on the Eraser to deselect it.</li>
+                </ul>
+            </div>
+            <div class="steps">
+                <h3>Setting a neuron's threshold:</h3>
+                <ul>
+                    <li>Click on the neuron to set its threshold.</li>
+                    <li>A form should have popped up at the bottom of the screen.</li>
+                    <li>Enter the new threshold value in the form field and click set(alternatively press return).</li>
+                </ul>
+            </div>
+            <div class="steps">
+                <h3>Setting a connection's weight:</h3>
+                <ul>
+                    <li>Click on the weight of the connection.</li>
+                    <li>A from should have popped up at the bottom of the screen.</li>
+                    <li>Enter the new weight of the connection and press return.</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <h2>Run a neural network</h2>
+            <p>A neural network which has been created can be run/simulated on any specified input. Option to simulate a neural network can be found in the RUN tab. On switching from the BUILD tab to the RUN tab, the neural network created is processed and the input and output nodes of the network are found out.</p>
+            <p>The input nodes can be identified by the arrow to their left. Each input node will just pass in any input fed to it without processing, this is done by setting its threshold to 1. Therefore, be careful while changing the threshold of an input node. The output nodes can be identified by the concentric circles. An output node behaves like a normal neuron but is special since it returns the final output of our problem. Its denotation with concentric circles is purely decorative.</p>
+            <p>The inverse i.e. the dismantling of the neural network into neurons with no special meaning occurs when switching from the RUN tab to the BUILD tab.</p>
+            <div class="steps">
+                <h3>Feeding the network inputs:</h3>
+                <ul>
+                    <li>Click on the Set Inputs button on the ribbon(in the RUN tab).</li>
+                    <li>A form should have popped up at the bottom of the screen.</li>
+                    <li>Enter the inputs for the input neurons(neurons are identified by their code i.e #) in the table.</li>
+                    <li>Each row in the table represents one input set. More inputs sets can be added using the Add Input Set button.</li>
+                    <li>At the top of the form is a field to specify the rate at which each input set is fed to the neural network. The value to be specified here will normally be the length of the longest path(without loops) from an input neuron to an output neuron.</li>
+                    <li>Finish off by clicking on Set(alternatively press return).</li>
+                </ul>
+            </div>
+            <div class="steps">
+                <h3>Running the network:</h3>
+                <ul>
+                    <li>After feeding the network inputs it can be run using the Run button in the ribbon.</li>
+                    <li>This will simulate the network on the supplied input sets. Each input set will be fed every n time units where n is the number specified in the Set Input form's "Feed inputs every n time units". Each time unit is 1 second real time.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- <div>
+            <h2>Training a neural network:</h2>
+            <p></p>
+        </div> -->
+    </article>
+
+    <div class="invisible">
+        EVIL STYLING PURPOSE DIV. PUSH DOWN TEXT. TO REMAIN INVISIBLE.<br><br><br><br><br>
+    </div>
+</div>
