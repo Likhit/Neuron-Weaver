@@ -78,8 +78,9 @@ Main.Connection.prototype.addEventHandlers = function() {
         if (!selected) {
             Main.weightOrThresholdSetter.removeClass("hidden")
                 .find("input").val($this.weight).focus();
-            Main.weightOrThresholdSetter.find("span.add-on>strong").text("Weight:");
+            Main.weightOrThresholdSetter.find("span.add-on>strong").html("W<sub>" + $this.from + "" + $this.to + "</sub>:");
             Main.weightOrThresholdSetter.data("current-connection", $this);
+            Main.statusbar.text("Connection from " + $this.from + " to " + $this.to + " selected.");
         }
     });
 };

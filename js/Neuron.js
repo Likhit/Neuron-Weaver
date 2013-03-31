@@ -143,6 +143,7 @@ Main.Neuron.prototype.addEventHandlers = function() {
                 .find("input").val($this.threshold).focus();
             Main.weightOrThresholdSetter.find("span.add-on>strong").text("Threshold:");
             Main.weightOrThresholdSetter.data("current-neuron", $this);
+            Main.statusbar.text("Neuron " + $this.code + " selected.");
         }
     });
 
