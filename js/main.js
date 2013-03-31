@@ -108,7 +108,7 @@ $(function() {
         }
     });
 
-    frontstage.find("a[data-toggle='tab']:not(#toggle-ribbon, [href='#backstage'])").on("show", function(e) {
+    frontstage.find("a[data-toggle='tab']:not(#toggle-ribbon, #help, [href='#backstage'])").on("show", function(e) {
         var target = $(e.target);
         var ul = target.parents("ul");
         var tabContent = ul.parents(".ribbon").find(".tab-content");
@@ -120,7 +120,13 @@ $(function() {
             ul.find("#toggle-ribbon i").removeClass("icon-chevron-down").addClass("icon-chevron-up");
             ul.removeData("collapsed");
         }
-    })
+    });
+
+    $("#help").on("show", function(e) {
+        e.preventDefault();
+        frontstage.find("a[href='#backstage']").tab("show");
+        backstage.find("a[href='#help-tab']").tab("show");
+    });
 
     Main.canvas = $(Main.layer.getCanvas().getElement());
     //Add neuron on click.
