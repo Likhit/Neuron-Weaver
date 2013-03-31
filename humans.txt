@@ -3,13 +3,11 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
-
-# THANKS
-
-    <name>
+    Likhit Dharmapuri -- http://www.facebook.com/likhitd
 
 # TECHNOLOGY COLOPHON
 
     HTML5, CSS3
     Normalize.css, jQuery, Modernizr
+    HTML5 Boilerplate, Twitter Bootstrap, KineticJS
+    Google App Engine
