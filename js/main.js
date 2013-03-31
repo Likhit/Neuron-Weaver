@@ -228,7 +228,12 @@ $(function() {
         var wavelength = Main.inputSetter.data("wavelength");
         var inputSets = Main.inputSetter.data("input-sets");
         var setIndex = 0, cycle = 0, totalNumOfCycles = (wavelength+1)*inputSets.length;
-        var timeUnit = parseInt($("#time-unit").val(), 10);
+        var timeUnitInput = $("#time-unit");
+        var timeUnit = parseInt(timeUnitInput.val(), 10);
+        if (timeUnit < 500) {
+            timeUnit = 500;
+            timeUnitInput.val(500);
+        }
         var interval = setInterval(function() {
             //Feed new inputs.
             if (cycle % (wavelength+1) === 0 && setIndex < inputSets.length) {
