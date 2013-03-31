@@ -319,6 +319,7 @@ $(function() {
         var newRow = body.last().clone();
         newRow.find("span").text(body.length + 1);
         body.last().after(newRow);
+        newRow.find("input").first().focus();
     });
 
     //Show training-data setting form.
