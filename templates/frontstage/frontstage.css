@@ -1,0 +1,63 @@
+/*--------Helpers----------*/
+.sticky-bottom {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+/*---------Ribbon----------*/
+{% include "ribbon/ribbon.css" %}
+
+/*----------Page-----------*/
+.page {
+    border: 1px solid #a5acb5;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 160px;
+    padding: 10px 0px 10px 0px;
+    background: #FFF;
+    border: 1px solid #a5a5a5;
+}
+
+.collapsed-page {
+    margin-top: 50px;
+}
+
+#canvas-container {
+    width: 97.5%;
+    margin: 0 auto;
+}
+
+/*-----------Forms------------*/
+{% include "forms/forms.css" %}
+
+/*---------Footer----------*/
+#frontstage footer {
+    background: rgba(43, 87, 154, 105);
+    border: 1px solid #1f48a1;
+   
+    padding-left: 5px;
+    
+    height: 20px;
+    cursor: default;
+    
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+    font-size: 10pt;
+    color: #fff;
+}
+
+#frontstage footer a {
+    color: inherit;
+    font-family: monospace;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#frontstage footer a:hover,
+#frontstage footer a:active {
+  color: inherit;
+}
+
+#frontstage footer .pull-right {
+    margin-right: 20px;
+}

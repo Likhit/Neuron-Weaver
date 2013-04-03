@@ -41,10 +41,10 @@ Main.trainingDataSetter.on("show", function(e) {
     }
 
     //Initialize with old previously saved values.
+    Main.trainingDataSetter.removeClass("hidden");
+    var wavelength = Main.trainingDataSetter.data("wavelength");
+    Main.trainingDataSetter.find("#appendedPrependedInput").focus().val(isNaN(wavelength) ? "" : wavelength);
     try {
-        var wavelength = Main.trainingDataSetter.data("wavelength");
-        Main.trainingDataSetter.find("#appendedPrependedInput").focus().val(isNaN(wavelength) ? "" : wavelength);
-
         var trainingSets = Main.trainingDataSetter.data("training-sets");
         var trainingSetHolders = Main.trainingDataSetter.find("tbody>tr");
         for (var i = 0, l = trainingSetHolders.length; i < l; i++) {
@@ -54,8 +54,6 @@ Main.trainingDataSetter.on("show", function(e) {
             });
         }
     } catch(Error) {}
-
-    Main.trainingDataSetter.removeClass("hidden");
 });
 
 //Hide the input setting form and process inputs.

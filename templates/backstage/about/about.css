@@ -1,0 +1,32 @@
+#about-tab h2 {
+    font-size: 15pt;
+    font-weight: 400;
+}
+
+#about-tab ul.media-list {
+    margin-top: 25px;
+}
+
+#about-tab .media-list li {
+    border-bottom: 1px solid #eee;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+#about-tab .media-list li:hover {
+    background-color: rgba(183, 230, 241, 0.46);
+}
+
+#about-tab .media-list a,
+#about-tab .media-list a:hover,
+#about-tab .media-list a:active,
+#about-tab .media-list a:visited,
+#about-tab .media-list a:focus {
+    text-decoration: none;
+    color: inherit;
+}
+
+#about-tab .media-list img {
+    width: 32px;
+    height: 32px;
+}

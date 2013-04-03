@@ -1,0 +1,19 @@
+<div class="ribbon">
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="file"><a href="#backstage" data-toggle="tab">NEURON WEAVER</a></li>
+            <li class="active"><a id="build" href="#tools" data-toggle="tab">BUILD</a></li>
+            <li><a id="run" href="#run-tab" data-toggle="tab">RUN</a></li>
+            <li class="pull-right">
+                <a class="close" id="toggle-ribbon" data-toggle="tab"><i class="icon-chevron-up"></i></a>
+            </li>
+            <li class="pull-right">
+                <a class="close" id="help" data-toggle="tab"><i class="icon-question-sign"></i></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            {% include "tools/tools.html" %}
+            {% include "run/run.html" with context %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+/*---------Ribbon Tabs-------------*/
+.ribbon {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+}
+
+.ribbon * {
+    font-family: Calibri, 'Segoe UI', Verdana, Tahoma, Helvetica, sans-serif;
+}
+
+.ribbon .nav-tabs {
+    background: #fbfbfb;
+    margin-bottom: 0;
+}
+
+.ribbon .nav-tabs > li {
+    margin-left: 5px;
+}
+
+.ribbon .nav-tabs a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 0;
+    color: #505050;
+    font-size: 11pt;
+}
+
+.ribbon .nav-tabs :not(.active) a:hover {
+    background-color: transparent;
+    color: #5050bf;
+    border: 0;
+}
+
+.ribbon .nav-tabs .file {
+    margin-left: 0;
+    background: rgba(43, 87, 154, 255);
+    box-shadow: 1px 0px 1px 0px black;
+}
+
+.ribbon .nav-tabs .file *{
+    background: rgba(43, 87, 154, 255);
+    border: 0;
+}
+
+.ribbon .nav-tabs .file a {
+    color: white;
+}
+
+.ribbon .nav-tabs .file:hover,
+.ribbon .nav-tabs .file a:hover {
+    color: white;
+    background:  rgb(68, 110, 172);
+    border: 0;
+}
+
+/*---------Ribbon Tab Content---------*/
+
+.ribbon .tab-content {
+    background-color: #fdfdfd;
+    border-bottom: 2px solid #c8c8c8;
+    height: 110px;
+    overflow: hidden;
+}
+
+.ribbon .section-content {
+    margin-left: -30px;
+    margin-top: 10px;
+    height: 75px;
+}
+
+.ribbon .section-content * {
+    font-size: 10pt;
+    border-radius: 0;
+}
+
+.ribbon [class^="control"] {
+    background-color: transparent;
+    box-shadow: none;
+    border: 0;
+}
+
+.ribbon .section-content button:hover {
+    background-color: rgba(183, 230, 241, 0.46);
+    border: 1px solid rgb(150, 192, 202);
+    padding: 0px 5px 0px 05px;
+}
+
+.ribbon .sel {
+    background-color: rgba(154, 210, 241, 0.7);
+    border: 1px solid rgb(150, 192, 202);
+    padding: 0px 5px 0px 05px;
+}
+
+.ribbon .control-large img {
+    width: 32px;
+    height: 32px;
+}
+
+.ribbon .control-small img {
+    width: 16px;
+    height: 16px;
+    float: left;
+}
+
+.ribbon .section-name {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 9pt;
+    color: #000;
+}
+
+.ribbon .section-seperator {
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #fff;
+    height: 95px;
+    position: relative;
+    width: 0;
+    float: left;
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

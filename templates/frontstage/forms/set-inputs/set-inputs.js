@@ -12,10 +12,10 @@ Main.inputSetter.on("show", function(e) {
     }
 
     //Initialize with old previously saved values.
+    Main.inputSetter.removeClass("hidden");
+    var wavelength = Main.inputSetter.data("wavelength");
+    Main.inputSetter.find("#appendedPrependedInput").focus().val(isNaN(wavelength) ? "" : wavelength);
     try {
-        var wavelength = Main.inputSetter.data("wavelength");
-        Main.inputSetter.find("#appendedPrependedInput").focus().val(isNaN(wavelength) ? "" : wavelength);
-
         var inputSets = Main.inputSetter.data("input-sets");
         var inputSetHolders = Main.inputSetter.find("tbody>tr");
         for (var i = 0, l = inputSetHolders.length; i < l; i++) {
@@ -25,8 +25,6 @@ Main.inputSetter.on("show", function(e) {
             });
         }
     } catch (Error) {}
-
-    Main.inputSetter.removeClass("hidden");
 });
 
 Main.inputSetter.find("button[type='submit']").on("click", function(e) {

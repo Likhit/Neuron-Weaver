@@ -1,0 +1,86 @@
+.office-backstage {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+    color: #505050;
+}
+
+/*---------Tab Headers---------*/
+.office-backstage img.back {
+    width: 55px;
+    height: 55px;
+}
+
+.office-backstage ul.nav-tabs {
+    height: 100%;
+    width: 140px;
+    background-color: rgba(43, 87, 154, 105);
+    margin: 0;
+    border: 1px solid rgba(43, 87, 154, 255);
+}
+
+.office-backstage .nav-tabs li {
+    margin: 0;
+}
+
+.office-backstage .nav-tabs li a {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: rgba(43, 87, 154, 105);
+    color: white;
+}
+
+.office-backstage .nav-tabs li a:hover {
+    background-color: rgb(28, 73, 141);
+    color: white;
+    border: 0;
+}
+
+.office-backstage .nav-tabs li.active a {
+    background-color: rgb(68, 110, 172);
+    color: white;
+    border: 0;
+}
+
+.office-backstage .nav-tabs li a.disabled {
+    opacity: 0.5;
+}
+
+.office-backstage .nav-tabs li a.disabled:hover {
+    background-color: transparent;
+    cursor: default;
+}
+
+/*----------Tab Content----------*/
+.office-backstage .tab-content {
+    background-color: #fbfbfb;
+    height: 100%;
+    padding: 30px;
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+}
+
+.office-backstage .tab-pane header {
+    border-radius: 0;
+    background-color: transparent;
+    margin-bottom: 20px;
+}
+
+.office-backstage .tab-pane header h1 {
+    font-weight: 100;
+    font-size: 32pt;
+}
+
+.office-backstage h2 {
+    font-size: 21pt;
+    margin: 0;
+}
+
+.office-backstage h3 {
+    font-size: 15pt;
+    margin: 0;
+}
+
+{% include "about/about.css" %}
+{% include "help/help.css" %}

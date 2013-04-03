@@ -1,0 +1,11 @@
+#help-tab article h2 {
+    border-bottom: 1px solid #eee;
+}
+
+#help-tab .steps {
+    margin-left: 30px;
+}
+
+#help-tab h2 {
+    font-weight: 600;
+}

@@ -1,0 +1,30 @@
+/*-----------Forms------------*/
+#frontstage form {
+    background: #f5f5f5;
+    background-color: #fbfbfb;
+    height: 37px;
+    padding-top: 5px;
+    padding-left: 5px;
+    border-top: 1px solid #a5a5a5;
+    font-family: Calibri, "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
+    font-size: 12pt;
+    bottom: 0px;
+}
+
+#frontstage .table-form {
+    height: 220px;
+    overflow-y: auto;
+    border-top: 2px solid #a5a5a5;
+    padding: 10px;
+}
+
+#frontstage form table {
+    margin-right: 10px;
+}
+
+#frontstage .table-form th,
+#frontstage .table-form input[type="text"] {
+    width: 6em;
+    margin-bottom: 2px;
+    font-size: 11px;
+}

@@ -31,6 +31,15 @@ class MainJS(BaseRequestHandler):
     template = 'main.js'
 
     def get(self):
+        self.response.headers['Content-Type'] = 'text/javascript'
+        self.render()
+
+class MainCSS(BaseRequestHandler):
+    environment = getEnvironment(__file__, autoescape=False)
+    template = 'main.css'
+
+    def get(self):
+        self.response.headers['Content-Type'] = 'text/css'
         self.render()
 
 class Error404(BaseRequestHandler):
@@ -45,6 +54,7 @@ class Error404(BaseRequestHandler):
 URLMap.add(
 	('/', HomePage),
     ('/main\.js', MainJS),
+    ('/main\.css', MainCSS),
     ('/.*', Error404)
 	)
 
