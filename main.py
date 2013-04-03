@@ -26,6 +26,13 @@ class HomePage(BaseRequestHandler):
 	def get(self):
 		self.render()
 
+class MainJS(BaseRequestHandler):
+    environment = getEnvironment(__file__, autoescape=False)
+    template = 'main.js'
+
+    def get(self):
+        self.render()
+
 class Error404(BaseRequestHandler):
     environment = getEnvironment(__file__)
     template = '404.html'
@@ -37,6 +44,7 @@ class Error404(BaseRequestHandler):
 
 URLMap.add(
 	('/', HomePage),
+    ('/main\.js', MainJS),
     ('/.*', Error404)
 	)
 

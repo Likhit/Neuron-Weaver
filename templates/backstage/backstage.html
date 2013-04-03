@@ -1,0 +1,18 @@
+<div id="backstage">
+    <div class="tabbable tabs-left office-backstage">
+        <ul class="nav nav-tabs">
+            <li><a href="#frontstage" data-toggle="tab"><img class="back" src="img/back.png" alt="Go to frontstage"></a></li>
+            <li><a href="#disabled" class="disabled" data-toggle="tab">New</a></li>
+            <li><a href="#disabled" class="disabled" data-toggle="tab">Save</a></li>
+            <li><a href="#help-tab" data-toggle="tab">Help</a></li>
+            <li class="active"><a href="#about-tab" data-toggle="tab">About</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" id="disabled">
+                Sorry, this feature has not yet been implemented.
+            </div>
+            {% include "help/help.html" %}
+            {% include "about/about.html" %}
+        </div>
+    </div>
+</div>

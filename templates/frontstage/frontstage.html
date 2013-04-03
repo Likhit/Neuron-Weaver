@@ -1,0 +1,42 @@
+<div id="frontstage">
+    <div class="ribbon">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="file"><a href="#backstage" data-toggle="tab">NEURON WEAVER</a></li>
+                <li class="active"><a id="build" href="#tools" data-toggle="tab">BUILD</a></li>
+                <li><a id="run" href="#run-tab" data-toggle="tab">RUN</a></li>
+                <li class="pull-right">
+                    <a class="close" id="toggle-ribbon" data-toggle="tab"><i class="icon-chevron-up"></i></a>
+                </li>
+                <li class="pull-right">
+                    <a class="close" id="help" data-toggle="tab"><i class="icon-question-sign"></i></a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                {% include "tools/tools.html" %}
+                {% include "run/run.html" with context %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="page">
+        <div id="canvas-container">
+            <!-- Used by Kinetic.js to put the canvas in. -->
+        </div>
+    </div>
+
+    <div>
+        {% include "forms/set-weights-or-thresholds/set-weights-or-thresholds.html" %}
+        {% include "forms/set-inputs/set-inputs.html" %}
+        {% include "forms/set-training-data/set-training-data.html" %}
+    </div>
+
+    <div class="invisible">
+        EVIL STYLING PURPOSE DIV. PUSH DOWN TEXT. TO REMAIN INVISIBLE.<br><br>
+    </div>
+
+    <footer class="sticky-bottom">
+        Made by <a href="https://www.facebook.com/likhitd">Likhit Dharmapuri</a>.
+        <span id="status-bar" class="pull-right"></span>
+    </footer>
+</div>

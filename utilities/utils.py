@@ -3,14 +3,20 @@
 #Also contains utility functions for various operations.
 from logging import error
 import webapp2, jinja2
+from os import path
 
-def getEnvironment(cfile, folder = '', autoescape = True):
+class RelEnvironment(jinja2.Environment):
+    """Override join_path() to enable relative template paths."""
+    def join_path(self, template, parent):
+        return path.join(path.dirname(parent), template).replace('\\', '/')
+
+def getEnvironment(cfile, folder = '', autoescape = True, relativePath = True):
 	"""Sets the jinja environment of the template to the supplied folder(relative path) or else to the current path."""
-	from os import path
 	location = path.dirname(cfile)
 	if folder:
 		location = path.join(location, folder)
-	return jinja2.Environment(autoescape = autoescape, loader = jinja2.FileSystemLoader(location))
+	environmentClass = jinja2.Environment if not relativePath else RelEnvironment
+	return environmentClass(autoescape = autoescape, loader = jinja2.FileSystemLoader(location))
 
 class BaseRequestHandler(webapp2.RequestHandler):
 	"""This is the base handler for all other Request Handlers.

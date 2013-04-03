@@ -29,67 +29,9 @@
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to run this application.</p>
         <![endif]-->
-        <div id="frontstage">
-            <div class="ribbon">
-                <div class="tabbable">
-                    <ul class="nav nav-tabs">
-                        <li class="file"><a href="#backstage" data-toggle="tab">NEURON WEAVER</a></li>
-                        <li class="active"><a id="build" href="#tools" data-toggle="tab">BUILD</a></li>
-                        <li><a id="run" href="#run-tab" data-toggle="tab">RUN</a></li>
-                        <li class="pull-right">
-                            <a class="close" id="toggle-ribbon" data-toggle="tab"><i class="icon-chevron-up"></i></a>
-                        </li>
-                        <li class="pull-right">
-                            <a class="close" id="help" data-toggle="tab"><i class="icon-question-sign"></i></a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        {% include "html/frontstage/tools.html" %}
-                        {% include "html/frontstage/run.html" %}
-                    </div>
-                </div>
-            </div>
-            
-            <div class="page">
-                <div id="canvas-container">
-                    <!-- Used by Kinetic.js to put the canvas in. -->
-                </div>
-            </div>
 
-            <div>
-                {% include "html/forms/set-weights-or-thresholds.html" %}
-                {% include "html/forms/set-inputs.html" %}
-                {% include "html/forms/set-training-data.html" %}
-            </div>
-
-            <div class="invisible">
-                EVIL STYLING PURPOSE DIV. PUSH DOWN TEXT. TO REMAIN INVISIBLE.<br><br>
-            </div>
-
-            <footer class="sticky-bottom">
-                Made by <a href="https://www.facebook.com/likhitd">Likhit Dharmapuri</a>.
-                <span id="status-bar" class="pull-right"></span>
-            </footer>
-        </div>
-
-        <div id="backstage">
-            <div class="tabbable tabs-left office-backstage">
-                <ul class="nav nav-tabs">
-                    <li><a href="#frontstage" data-toggle="tab"><img class="back" src="img/back.png" alt="Go to frontstage"></a></li>
-                    <li><a href="#disabled" class="disabled" data-toggle="tab">New</a></li>
-                    <li><a href="#disabled" class="disabled" data-toggle="tab">Save</a></li>
-                    <li><a href="#help-tab" data-toggle="tab">Help</a></li>
-                    <li class="active"><a href="#about-tab" data-toggle="tab">About</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane" id="disabled">
-                        Sorry, this feature has not yet been implemented.
-                    </div>
-                    {% include "html/backstage/help.html" %}
-                    {% include "html/backstage/about.html" %}
-                </div>
-            </div>
-        </div>
+        {% include "templates/frontstage/frontstage.html" %}
+        {% include "templates/backstage/backstage.html" %}
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
@@ -97,7 +39,7 @@
         <script src="js/vendor/kinetic.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         
-        <script src="js/main.js"></script>
+        <script src="main.js"></script>
         <script src="js/Neuron.js"></script>
         <script src="js/Connection.js"></script>
         <script src="js/NeuralNetwork.js"></script>
