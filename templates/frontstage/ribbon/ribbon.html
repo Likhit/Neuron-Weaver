@@ -4,6 +4,7 @@
             <li class="file"><a href="#backstage" data-toggle="tab">NEURON WEAVER</a></li>
             <li class="active"><a id="build" href="#tools" data-toggle="tab">BUILD</a></li>
             <li><a id="run" href="#run-tab" data-toggle="tab">RUN</a></li>
+            <li><a id="run" href="#train-tab" data-toggle="tab">TRAIN</a></li>
             <li class="pull-right">
                 <a class="close" id="toggle-ribbon" data-toggle="tab"><i class="icon-chevron-up"></i></a>
             </li>
@@ -13,7 +14,8 @@
         </ul>
         <div class="tab-content">
             {% include "tools/tools.html" %}
-            {% include "run/run.html" with context %}
+            {% include "run/run.html" %}
+            {% include "train/train.html" %}
         </div>
     </div>
 </div>

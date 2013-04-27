@@ -79,12 +79,13 @@
     background-color: transparent;
     box-shadow: none;
     border: 0;
+    padding: 1px 6px;
 }
 
-.ribbon .section-content button:hover {
+.ribbon [class^="control"]:hover {
     background-color: rgba(183, 230, 241, 0.46);
     border: 1px solid rgb(150, 192, 202);
-    padding: 0px 5px 0px 05px;
+    padding: 0px 5px;
 }
 
 .ribbon .sel {
@@ -121,4 +122,15 @@
     margin: 0;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.ribbon .tab-content .disabled {
+    opacity: 0.55;
+}
+
+.ribbon .tab-content .disabled:hover {
+    border: 1px solid;
+    border-color: transparent;
+    background-color: transparent;
+    cursor: auto;
 }

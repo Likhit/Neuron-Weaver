@@ -41,8 +41,10 @@ Main.NeuralNetwork = function(neurons, connections) {
 
 Main.NeuralNetwork.prototype.fire = function() {
     //Fire all neurons.
+    this.resultVectors.push([]);
+    var lastVector = this.resultVectors[this.resultVectors.length - 1];
     for (var i = 0, l = this.neurons.length; i < l; i++) {
-        this.neurons[i].fire();
+        lastVector.push(this.neurons[i].fire());
     }
 };
 
@@ -60,10 +62,104 @@ Main.NeuralNetwork.prototype.propogateOutputs = function() {
     }
 };
 
-Main.NeuralNetwork.prototype.run = function() {
-    this.fire();
-    this.propogateOutputs();
+Main.NeuralNetwork.prototype.compute = function(inputSets, wavelength) {
+    this.resultVectors = [];
+    var defaultResult = {
+        net: NaN,
+        output: NaN
+    };
+    for (var i = 0, l1 = inputSets.length; i < l1; i++) {
+        Main.statusbar.text("Computing input set " + i + ".");
+        for (var j = 0, l2 = this.inputNodes.length; j < l2; j++) {
+            var neuron = this.neurons[this.inputNodes[j]];
+            var input = inputSets[i][j];
+            if (!isNaN(input)) {
+                neuron.inputs = [inputSets[i][j]];
+            }
+        }
+        for (var j = 0; j < wavelength; j++) {
+            this.fire();
+            this.propogateOutputs();
+        }
+        this.resultVectors.push([]);
+        var lastVector = this.resultVectors[this.resultVectors.length - 1];
+        for (var j = 0, l2 = this.neurons.length; j < l2; j++) {
+            lastVector.push(defaultResult);
+        }
+    }    
+    Main.statusbar.text("Computation completed.");
+};
+
+Main.NeuralNetwork.prototype.startAnimation = function(timeUnit, startCallBack, endCallBack) {
+    var $this = this;
+    if (!this.animationObject) {
+        this.animationObject = {
+            cycleNum: 0,
+            timeUnit: timeUnit,
+            onIntervalStart: startCallBack,
+            onIntervalClear: endCallBack
+        };
+    }
+    this.animationObject.interval = setInterval(function() {
+        for (var i = 0, l = $this.resultVectors[$this.animationObject.cycleNum].length; i < l; i++) {
+            var result = $this.resultVectors[$this.animationObject.cycleNum][i];
+            $this.neurons[i].setNet(result.net);
+            $this.neurons[i].setOutput(result.output);
+        }
+        Main.layer.draw();
+        if (++$this.animationObject.cycleNum >= $this.resultVectors.length) {
+            $this.stopAnimation();
+            Main.statusbar.text("Network animation completed.");
+        }
+    }, timeUnit);
+    this.animationObject.onIntervalStart();
+};
+
+Main.NeuralNetwork.prototype.pauseAnimation = function() {
+    clearInterval(this.animationObject.interval);
+    Main.statusbar.text("Network animation paused.");
+};
+
+Main.NeuralNetwork.prototype.resumeAnimation = function() {
+    this.startAnimation(this.animationObject.timeUnit);
+    Main.statusbar.text("Network animation resumed.");
+};
+
+Main.NeuralNetwork.prototype.stopAnimation = function() {
+    clearInterval(this.animationObject.interval);
+    for (var i = 0, l = this.neurons.length; i < l; i++) {
+        this.neurons[i].setOutput(NaN);
+        this.neurons[i].setNet(NaN);
+    }
     Main.layer.draw();
+    this.animationObject.onIntervalClear();
+    delete this.animationObject;
+    Main.statusbar.text("Network animation stopped.");
+};
+
+Main.NeuralNetwork.prototype.stepNext = function() {
+    for (var i = 0, l = this.resultVectors[this.animationObject.cycleNum].length; i < l; i++) {
+        var result = this.resultVectors[this.animationObject.cycleNum][i];
+        this.neurons[i].setNet(result.net);
+        this.neurons[i].setOutput(result.output);
+    }
+    Main.layer.draw();
+    if (++this.animationObject.cycleNum >= this.resultVectors.length) {
+        this.stopAnimation();
+        Main.statusbar.text("Network animation completed.");
+    }
+};
+
+Main.NeuralNetwork.prototype.stepBack = function() {
+    for (var i = 0, l = this.resultVectors[this.animationObject.cycleNum].length; i < l; i++) {
+        var result = this.resultVectors[this.animationObject.cycleNum][i];
+        this.neurons[i].setNet(result.net);
+        this.neurons[i].setOutput(result.output);
+    }
+    Main.layer.draw();
+    if (this.animationObject.cycleNum > 0) {
+        this.animationObject.cycleNum--;
+    }
 };
 
 Main.NeuralNetwork.prototype.findNeuronByCode = function(code) {
@@ -76,6 +172,9 @@ Main.NeuralNetwork.prototype.findNeuronByCode = function(code) {
 };
 
 Main.NeuralNetwork.prototype.dismantle = function(code) {
+    try {
+        this.stopAnimation();
+    } catch(Error) {}
     for (var i = 0, l = this.neurons.length; i < l; i++) {
         Main.removeTraits(this.neurons[i]);
     }

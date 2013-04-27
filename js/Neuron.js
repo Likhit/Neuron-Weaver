@@ -2,7 +2,6 @@ Main.Neuron = function() {
     this.code = Main.Neuron.neuronCounter++;
     this.threshold = 0;
     this.inputs = [];
-    this.output = NaN;
 };
 
 Main.Neuron.neuronCounter = 0;
@@ -97,11 +96,20 @@ Main.Neuron.prototype.addToLayer = function(layer, x, y) {
 };
 
 Main.Neuron.prototype.fire = function() {
-    var sum = this.inputs.length === 0 ? NaN : this.inputs.reduce(function(x, a){return x + a;}, 0);
-    this.setNet(sum);
-    this.setOutput(isNaN(sum) ? NaN : sum >= this.threshold ? 1 : 0);
-    return this.output;
+    var net = this.inputs.length === 0 ? NaN : this.inputs.reduce(function(x, a) {
+        return x + a;
+    }, 0);
+    
+    this.output = this.thresholder(net);
+    return { 
+        net: net,
+        output: this.output
+    };
 };
+
+Main.Neuron.prototype.thresholder = function(net) {
+    return isNaN(net) ? NaN : net < this.threshold ? 0 : 1;
+}
 
 Main.Neuron.prototype.setThreshold = function(val) {
     this.threshold = val;
@@ -110,9 +118,8 @@ Main.Neuron.prototype.setThreshold = function(val) {
 };
 
 Main.Neuron.prototype.setOutput = function(val) {
-    this.output = val;
     var newFill = "rgba(255, 255, 255, 0)";
-    if (!isNaN(this.output)) {
+    if (!isNaN(val)) {
         newFill = "rgba(255, 215, 0, 25)";
     }
     this.gui.get(".output").apply("setText", isNaN(val) ? "" : val);
