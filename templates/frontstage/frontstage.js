@@ -12,18 +12,12 @@ frontstage.find("a[href='#backstage']").on("show", function(e) {
 {% include "ribbon/ribbon.js" %}
 
 //Canvas operations.
-Main.stage = new Kinetic.Stage({
-        container: "canvas-container",
-        width: 0.9*screen.availWidth,
-        height: 0.85*screen.availHeight
-    });
 
-Main.layer = new Kinetic.Layer();
+Main.paper = Raphael("canvas-container", 0.9*screen.availWidth, 0.85*screen.availHeight);
 
-Main.stage.add(Main.layer);
+Main.canvas = $(Main.paper.canvas);
 
-Main.canvas = $(Main.layer.getCanvas().getElement());
-    //Add neuron on click.
+//Add neuron, erase and connection functionality.
 Main.canvas.on("click", function(e) {
     var box = e.target.getBoundingClientRect();
     var x = e.clientX - box.left;
@@ -32,86 +26,76 @@ Main.canvas.on("click", function(e) {
     if (selected !== undefined) {
         switch(selected.id) {
             case "neuron":
-                var neuron = new Main.Neuron();
-                neuron.addToLayer(Main.layer, x, y);
+                Main.Neuron.create(Main.paper, x, y);
                 Main.statusbar.text("Neuron added.");
                 break;
+            case "eraser":
+                var obj = Main.paper.getElementByPoint(e.clientX, e.clientY).data("parent");
+                if (obj.type === "Neuron") {
+                    Main.Neuron.destroy(obj);
+                    Main.statusbar.text("Neuron #" + obj.code + " erased.");
+                }
+                else if (obj.type === "Connection") {
+                    Main.Connection.destroy(obj);
+                    Main.statusbar.text(Raphael.format("Connection between {0} and {1} erased.", obj.to, obj.from));
+                }
+                delete obj;
+                break;
         }
+    }
+});
+
+//Unselected all selected components.
+Main.canvas.on("click", function(e) {
+    if (Main.canvas[0] === e.target) {
+        Main.Selection.clear();
     }
 });
 
 //<Add connection>
 Main.canvas.on("mousedown", function(e) {
-    var box = e.target.getBoundingClientRect();
+    var box = Main.canvas[0].getBoundingClientRect();
     var x = e.clientX - box.left;
     var y = e.clientY - box.top;
     var selected = Main.toolbar.data("selected");
-    if (selected !== undefined) {
-        switch(selected.id) {
-            case "connect":
-                var connection = new Main.Connection();
-                connection.addToLayer(Main.layer, x, y);
-                Main.toolbar.data("current-connection", connection);
-                var counter = 0;
-                var interval = setInterval(function() {
-                    connection.from = Main.toolbar.data("connect-from");
-                    if (connection.from !== undefined || counter++ > 10) {
-                        if (connection.from !== undefined) {
-                            connection.setLineStroke("#a0a0a0");
-                            Main.statusbar.text("Connection started from " + connection.from + ".");
-                        }
-                        Main.toolbar.removeData("connect-from");
-                        clearInterval(interval);
-                    }
-                }, 200);
-                break;
-        }
+    if (selected && selected.id == "connect") {
+        var connection = Main.Connection.create(Main.paper, x, y);
+        var obj = Main.paper.getElementByPoint(e.clientX, e.clientY).data("parent");
+        Main.Connection.set(connection, "from", obj);        
+        Main.toolbar.data("current-connection", connection);
     }
 });
 
+
 Main.canvas.on("mousemove", function(e) {
-    var box = e.target.getBoundingClientRect();
+    var box = Main.canvas[0].getBoundingClientRect();
     var x = e.clientX - box.left;
     var y = e.clientY - box.top;
     var selected = Main.toolbar.data("selected");
-    if (selected !== undefined) {
-        switch(selected.id) {
-            case "connect":
-                var connection = Main.toolbar.data("current-connection");
-                if (connection !== undefined) {
-                    connection.addPoint(x, y);
-                }
-                break;
-        }
+    if (selected && selected.id == "connect") {
+        var connection = Main.toolbar.data("current-connection");
+        if (connection !== undefined) {
+            Main.Connection.extendPathTo(connection, x, y);        }
     }
 });
 
 Main.canvas.on("mouseup", function(e) {
-    var box = e.target.getBoundingClientRect();
+    var box = Main.canvas[0].getBoundingClientRect();
     var x = e.clientX - box.left;
     var y = e.clientY - box.top;
     var selected = Main.toolbar.data("selected");
-    if (selected !== undefined) {
-        switch(selected.id) {
-            case "connect":
-                var connection = Main.toolbar.data("current-connection");
-                if (connection !== undefined) {
-                    connection.addPoint(x, y);
-                    Main.toolbar.removeData("current-connection");
-                    var counter = 0;
-                    var interval = setInterval(function() {
-                        connection.to = Main.toolbar.data("connect-to");
-                        if (connection.to !== undefined || counter++ > 10) {
-                            if (connection.getLineStroke() === "#a0a0a0") {
-                                connection.setLineStroke("black");
-                                Main.statusbar.text("Connection created from " + connection.from + " to " + connection.to + ".");
-                            }
-                            Main.toolbar.removeData("connect-to");
-                            clearInterval(interval);
-                        }
-                    }, 200);
+    if (selected && selected.id == "connect") {
+        var connection = Main.toolbar.data("current-connection");
+        if (connection !== undefined) {
+            Main.toolbar.removeData("current-connection");
+            var elems = Main.paper.getElementsByPoint(x, y);
+            for (var i = 0; i < elems.length; i++) {
+                var obj = elems[i].data("parent");
+                if (obj.type === "Neuron") {
+                    Main.Connection.set(connection, "to", obj);
+                    break;
                 }
-                break;
+            }
         }
     }
 });

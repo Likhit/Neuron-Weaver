@@ -8,13 +8,11 @@ Main.toolbar.find("#neuron, #eraser, #connect").on("click", function(e) {
         $(selected).removeClass("sel");
         Main.toolbar.data("selected", e.currentTarget);
         Main.canvas.css("cursor", "crosshair");
-        Main.layer.get(".neuron").apply("setDraggable", false);
         Main.statusbar.text("Tool: " + e.currentTarget.id + " selected.");
     }
     else {
         Main.toolbar.removeData("selected");
         Main.canvas.css("cursor", "auto");
-        Main.layer.get(".neuron").apply("setDraggable", true);
         Main.statusbar.text("Tool: " + e.currentTarget.id + " deselected.");
     }
     $(e.currentTarget).toggleClass("sel");
@@ -34,10 +32,10 @@ $("#run").on("show", function(e) {
     if (selected !== undefined) {
         Main.toolbar.removeData("selected");
         Main.canvas.css("cursor", "auto");
-        Main.layer.get(".neuron").apply("setDraggable", true);
+        Main.paper.get(".neuron").apply("setDraggable", true);
         $(selected).removeClass("sel");
     }
-    var neurons = Main.layer.get(".neuron").map(function(x){return x.neuron;});
-    var connections = Main.layer.get(".connection").map(function(x){return x.connection;});
+    var neurons = Main.paper.get(".neuron").map(function(x){return x.neuron;});
+    var connections = Main.paper.get(".connection").map(function(x){return x.connection;});
     Main.ann = new Main.NeuralNetwork(neurons, connections);
 });

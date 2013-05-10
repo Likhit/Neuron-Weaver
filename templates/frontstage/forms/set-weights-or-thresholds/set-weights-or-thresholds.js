@@ -2,22 +2,35 @@ Main.weightOrThresholdSetter = $("#set-weights-or-thresholds").first();
 //Show threshold setting form.
 Main.weightOrThresholdSetter.find("button").on("click", function(e) {
     e.preventDefault();
-    var neuron = Main.weightOrThresholdSetter.data("current-neuron");
-    if (neuron) {
-        neuron.setThreshold(parseFloat(Main.weightOrThresholdSetter.find("input").val(), 10));
-        Main.weightOrThresholdSetter.removeData("current-neuron");
-        Main.weightOrThresholdSetter.addClass("hidden");
-        Main.statusbar.text("Threshold of neuron " + neuron.code + " set to " + neuron.threshold + ".");
-        return;
+    
+    var elems = Main.Selection.getAll();
+    var newValue = parseFloat(Main.weightOrThresholdSetter.find("input").val(), 10);
+    
+    if (Main.Selection.type === "Neuron") {
+        var statusMessage = "Threshold of neurons ";
+        var func = Main.Neuron.setThreshold;
     }
-    var connection = Main.weightOrThresholdSetter.data("current-connection");
-    if (connection) {
-        connection.setWeight(parseFloat(Main.weightOrThresholdSetter.find("input").val(), 10));
-        Main.weightOrThresholdSetter.removeData("current-connection");
-        Main.weightOrThresholdSetter.addClass("hidden");
-        Main.statusbar.text("Weight of connection from " + connection.from + " to " + connection.to + " set to " + connection.weight + ".");
-        return;
+    
+    else if (Main.Selection.type === "Connection") {
+        var statusMessage = "Weight of connections ";
+        var func = Main.Connection.setWeight;
     }
+
+    for (var i = 0; i < elems.length; i++) {
+        func(elems[i], newValue);
+        statusMessage += elems[i].code;
+        if (i === elems.length - 2) {
+            statusMessage += " and";
+        }
+        else if (i !== elems.length - 1) {
+            statusMessage += ", ";
+        }
+    }
+
+    statusMessage += " set to " + newValue + ".";
+    Main.statusbar.text(statusMessage);
+    Main.weightOrThresholdSetter.addClass("hidden");
+    Main.Selection.clear();
 });
 
 Main.weightOrThresholdSetter.find("input").on("focusout", function(e) {

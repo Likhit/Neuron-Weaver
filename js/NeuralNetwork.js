@@ -36,7 +36,7 @@ Main.NeuralNetwork = function(neurons, connections) {
         }
     }
 
-    Main.layer.draw();
+    Main.paper.draw();
 };
 
 Main.NeuralNetwork.prototype.fire = function() {
@@ -106,7 +106,7 @@ Main.NeuralNetwork.prototype.startAnimation = function(timeUnit, startCallBack, 
             $this.neurons[i].setNet(result.net);
             $this.neurons[i].setOutput(result.output);
         }
-        Main.layer.draw();
+        Main.paper.draw();
         if (++$this.animationObject.cycleNum >= $this.resultVectors.length) {
             $this.stopAnimation();
             Main.statusbar.text("Network animation completed.");
@@ -131,7 +131,7 @@ Main.NeuralNetwork.prototype.stopAnimation = function() {
         this.neurons[i].setOutput(NaN);
         this.neurons[i].setNet(NaN);
     }
-    Main.layer.draw();
+    Main.paper.draw();
     this.animationObject.onIntervalClear();
     delete this.animationObject;
     Main.statusbar.text("Network animation stopped.");
@@ -143,7 +143,7 @@ Main.NeuralNetwork.prototype.stepNext = function() {
         this.neurons[i].setNet(result.net);
         this.neurons[i].setOutput(result.output);
     }
-    Main.layer.draw();
+    Main.paper.draw();
     if (++this.animationObject.cycleNum >= this.resultVectors.length) {
         this.stopAnimation();
         Main.statusbar.text("Network animation completed.");
@@ -156,7 +156,7 @@ Main.NeuralNetwork.prototype.stepBack = function() {
         this.neurons[i].setNet(result.net);
         this.neurons[i].setOutput(result.output);
     }
-    Main.layer.draw();
+    Main.paper.draw();
     if (this.animationObject.cycleNum > 0) {
         this.animationObject.cycleNum--;
     }
@@ -178,5 +178,5 @@ Main.NeuralNetwork.prototype.dismantle = function(code) {
     for (var i = 0, l = this.neurons.length; i < l; i++) {
         Main.removeTraits(this.neurons[i]);
     }
-    Main.layer.draw();
+    Main.paper.draw();
 };
