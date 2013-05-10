@@ -1,16 +1,11 @@
 Main.NeuralNetwork = function(neurons, connections) {
-    this.neurons = neurons.sort(function(x, y) {
-        if (x.code < y.code)
-            return -1;
-        else if (x.code > y.code)
-            return 1;
-        else
-            return 0;
-    });
+    this.neurons = neurons;
     this.connections = connections;
     this.inputNodes = [];
     this.outputNodes = [];
     this.weights = {};
+    this.code = Main.NeuralNetwork._NETWORKCOUNTER++;
+    this.type = "ANN";
 
     var isInputNode = {}, isOutputNode = {};
     for (var i = 0, l = this.connections.length; i < l; i++) {
@@ -36,8 +31,12 @@ Main.NeuralNetwork = function(neurons, connections) {
         }
     }
 
-    Main.paper.draw();
+    Main.NeuralNetwork._container[this.code] = this;
 };
+
+Main.NeuralNetwork._NETWORKCOUNTER = 0;
+
+Main.NeuralNetwork._container = {};
 
 Main.NeuralNetwork.prototype.fire = function() {
     //Fire all neurons.

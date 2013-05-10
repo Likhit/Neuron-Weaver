@@ -8,16 +8,16 @@ Main.weightOrThresholdSetter.find("button").on("click", function(e) {
     
     if (Main.Selection.type === "Neuron") {
         var statusMessage = "Threshold of neurons ";
-        var func = Main.Neuron.setThreshold;
+        var func = "setThreshold";
     }
     
     else if (Main.Selection.type === "Connection") {
         var statusMessage = "Weight of connections ";
-        var func = Main.Connection.setWeight;
+        var func = "setWeight";
     }
 
     for (var i = 0; i < elems.length; i++) {
-        func(elems[i], newValue);
+        elems[i][func](newValue);
         statusMessage += elems[i].code;
         if (i === elems.length - 2) {
             statusMessage += " and";

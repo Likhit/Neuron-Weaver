@@ -1,3 +1,16 @@
+//Create the network.
+$("#run").on("show", function(e) {
+    var selected = Main.toolbar.data("selected");
+    if (selected !== undefined) {
+        Main.toolbar.removeData("selected");
+        Main.canvas.css("cursor", "auto");
+        $(selected).removeClass("sel");
+    }
+    var neurons = Main.Neuron.getAll();
+    var connections = Main.Connection.getAll();
+    Main.ann = new Main.NeuralNetwork(neurons, connections);
+});
+
 //Run the network with the supplied input sets.
 var play = $("#play");
 var pause = $("#pause");

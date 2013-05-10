@@ -26,19 +26,18 @@ Main.canvas.on("click", function(e) {
     if (selected !== undefined) {
         switch(selected.id) {
             case "neuron":
-                Main.Neuron.create(Main.paper, x, y);
+                var neuron = new Main.Neuron(Main.paper, x, y);
                 Main.statusbar.text("Neuron added.");
                 break;
             case "eraser":
                 var obj = Main.paper.getElementByPoint(e.clientX, e.clientY).data("parent");
                 if (obj.type === "Neuron") {
-                    Main.Neuron.destroy(obj);
                     Main.statusbar.text("Neuron #" + obj.code + " erased.");
                 }
                 else if (obj.type === "Connection") {
-                    Main.Connection.destroy(obj);
                     Main.statusbar.text(Raphael.format("Connection between {0} and {1} erased.", obj.to, obj.from));
                 }
+                obj.destroy();
                 delete obj;
                 break;
         }
@@ -59,9 +58,9 @@ Main.canvas.on("mousedown", function(e) {
     var y = e.clientY - box.top;
     var selected = Main.toolbar.data("selected");
     if (selected && selected.id == "connect") {
-        var connection = Main.Connection.create(Main.paper, x, y);
+        var connection = new Main.Connection(Main.paper, x, y);
         var obj = Main.paper.getElementByPoint(e.clientX, e.clientY).data("parent");
-        Main.Connection.set(connection, "from", obj);        
+        connection.set("from", obj);        
         Main.toolbar.data("current-connection", connection);
     }
 });
@@ -75,7 +74,7 @@ Main.canvas.on("mousemove", function(e) {
     if (selected && selected.id == "connect") {
         var connection = Main.toolbar.data("current-connection");
         if (connection !== undefined) {
-            Main.Connection.extendPathTo(connection, x, y);        }
+            connection.extendPathTo(x, y);        }
     }
 });
 
@@ -92,7 +91,7 @@ Main.canvas.on("mouseup", function(e) {
             for (var i = 0; i < elems.length; i++) {
                 var obj = elems[i].data("parent");
                 if (obj.type === "Neuron") {
-                    Main.Connection.set(connection, "to", obj);
+                    connection.set("to", obj);
                     break;
                 }
             }

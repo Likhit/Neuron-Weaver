@@ -1,174 +1,170 @@
-Main.Neuron = {
-    _NEURONCOUNTER: 0,
+Main.Neuron = function(paper, x, y) {
+    this._threshold = 0;
+    this.inputs = [];
+    this._net = NaN;
+    this.output = NaN;
+    this.code = Main.Neuron._NEURONCOUNTER++;
+    this.GUI = {
+        attrs: {
+            _draggable: true,
+            _selected: false
+        },
+        elems: {}
+    };
+    this.type = "Neuron";
 
-    _container: {},
+    this.GUI.elems.codeBox = paper.text(x - 2, y - 32, "#" + this.code).attr({
+        "font-family": "Times New Roman",
+        "font-weight": 900,
+        "font-size": 12
+    });
 
-    create: function(paper, x, y) {
-        var neuron = {
-            _threshold: 0,
-            inputs: [],
-            _net: NaN,
-            output: NaN,
-            code: this._NEURONCOUNTER++,
-            GUI: {
-                attrs: {
-                    _draggable: true,
-                    _selected: false
-                },
-                elems: {}
-            },
-            type: "Neuron"
-        };
+    this.GUI.elems.thresholdBox = paper.text(x - 2, y + 32, "θ:" + this._threshold).attr({
+        "font-family": "Times New Roman",
+        "font-weight": 900,
+        "font-size": 12
+    });
 
-        neuron.GUI.elems.codeBox = paper.text(x - 2, y - 32, "#" + neuron.code).attr({
-            "font-family": "Times New Roman",
-            "font-weight": 900,
-            "font-size": 12
-        });
+    this.GUI.elems.netBox = paper.text(x - 12, y, "Σ:-").attr({
+        "font-family": "Times New Roman",
+        "font-weight": 900,
+        "font-size": 11
+    });
 
-        neuron.GUI.elems.thresholdBox = paper.text(x - 2, y + 32, "θ:" + neuron._threshold).attr({
-            "font-family": "Times New Roman",
-            "font-weight": 900,
-            "font-size": 12
-        });
+    this.GUI.elems.outputBox = paper.text(x + 12, y, "-").attr({
+        "font-family": "Times New Roman",
+        "font-weight": 900,
+        "font-size": 22
+    });
 
-        neuron.GUI.elems.netBox = paper.text(x - 12, y, "Σ:-").attr({
-            "font-family": "Times New Roman",
-            "font-weight": 900,
-            "font-size": 11
-        });
+    this.GUI.elems.outerCircle = paper.circle(x, y, 33).attr({
+        fill: "transparent",
+        stroke: "transparent"
+    });
 
-        neuron.GUI.elems.outputBox = paper.text(x + 12, y, "-").attr({
-            "font-family": "Times New Roman",
-            "font-weight": 900,
-            "font-size": 22
-        });
-
-        neuron.GUI.elems.outerCircle = paper.circle(x, y, 33).attr({
-            fill: "transparent",
-            stroke: "transparent"
-        });
-
-        neuron.GUI.elems.middleCircle = paper.circle(x, y, 25).attr({
-            fill: "transparent",
-            stroke: "black",
-            "stroke-width": 2
-        });
-        
-        neuron.GUI.elems.innerCircle = paper.circle(x, y, 20).attr({
-            fill: "transparent",
-            stroke: "transparent",
-            title: Raphael.fullfill("Neuron {code}\n►Thershold: {_threshold}\n►Net: {_net}\n►Output: {output}", neuron)
-        });
-
-        for (var i in neuron.GUI.elems) {
-            neuron.GUI.elems[i].data("parent", neuron);
-        }
-
-        this._addEventHandlers(neuron);
-        this._container[neuron.code] = neuron;
-        return neuron;
-    },
-
-    destroy: function(neuron) {
-        for (var i in neuron.GUI.elems) {
-            neuron.GUI.elems[i].remove();
-        }
-        delete this._container[neuron.code];
-    },
-
-    _addEventHandlers: function(neuron) {
-        //Add selection on click.
-        function clickHandler(e) {
-            if (!Main.Neuron.isSelected(neuron) && !Main.toolbar.data("selected")) {
-                Main.Selection.add(neuron);
-                Main.weightOrThresholdSetter.removeClass("hidden")
-                    .find("input").val(neuron._threshold).focus();
-                Main.weightOrThresholdSetter.find("span.add-on>strong").text("Threshold:");
-                Main.statusbar.text("Neuron " + neuron.code + " selected.");
-            }
-            else {
-                Main.Selection.remove(neuron);
-                Main.weightOrThresholdSetter.addClass("hidden");
-            }
-        }
-
-        neuron.GUI.elems.innerCircle.click(clickHandler);
-        neuron.GUI.elems.middleCircle.click(clickHandler);
-
-        //Add drag capability.
-        function dragStart() {
-            this.innerCircle.ox = this.innerCircle.attr("cx");
-            this.innerCircle.oy = this.innerCircle.attr("cy");
-        }
-
-        function dragMove(dx, dy) {
-            if (Main.Neuron.isDraggable(neuron)) {
-                var newPos = { cx: this.innerCircle.ox + dx, cy: this.innerCircle.oy + dy };
-                this.innerCircle.attr(newPos);
-                this.outerCircle.attr(newPos);
-                this.middleCircle.attr(newPos);
-                this.codeBox.attr({ x: newPos.cx - 2, y: newPos.cy - 32 });
-                this.thresholdBox.attr({ x: newPos.cx - 2, y: newPos.cy + 32 });
-                this.netBox.attr({ x: newPos.cx - 12, y: newPos.cy });
-                this.outputBox.attr({ x: newPos.cx + 12, y: newPos.cy });
-                if (Main.Neuron.isSelected(neuron)) {
-                    this._glow.transform(Raphael.format("t{0},{1}", dx, dy));
-                }
-            }
-        }
-
-        function dragEnd() {
-            delete this.innerCircle.ox;
-            delete this.innerCircle.oy;
-        }
-
-        neuron.GUI.elems.innerCircle.drag(dragMove, dragStart, dragEnd, neuron.GUI.elems);
-    },
-
-    setDraggable: function(neuron, val) {
-        neuron.GUI.attrs._draggable = (val || val === undefined) ? true : false;
-        return this;
-    },
+    this.GUI.elems.middleCircle = paper.circle(x, y, 25).attr({
+        fill: "transparent",
+        stroke: "black",
+        "stroke-width": 2
+    });
     
-    isDraggable: function(neuron) {
-        return neuron.GUI.attrs._draggable;
-    },
+    this.GUI.elems.innerCircle = paper.circle(x, y, 20).attr({
+        fill: "transparent",
+        stroke: "transparent",
+        title: Raphael.fullfill("Neuron {code}\n►Thershold: {_threshold}\n►Net: {_net}\n►Output: {output}", this)
+    });
 
-    select: function(neuron) {
-        neuron.GUI.attrs._selected = true;
-        neuron.GUI.elems._glow = neuron.GUI.elems.middleCircle.glow({color: "gold", width: 15});
-        return this;
-    },
-
-    deselect: function(neuron) {
-        neuron.GUI.attrs._selected = false;
-        neuron.GUI.elems._glow.remove();
-        delete neuron.GUI.elems._glow;
-        return this;
-    },
-
-    isSelected: function(neuron) {
-        return neuron.GUI.attrs._selected;
-    },
-
-    setThreshold: function(neuron, val) {
-        neuron._threshold = val;
-        neuron.GUI.elems.thresholdBox.attr("text", "θ:" + val);
-        return this;
-    },
-
-    getAll: function() {
-        var result = [];
-            for (var i in this._container) {
-            result.push(this._container[i]);
-        }
-        return result;
-    },
-
-    getElementByCode: function(code) {
-        return this._container[code];
+    for (var i in this.GUI.elems) {
+        this.GUI.elems[i].data("parent", this);
     }
+
+    this._addEventHandlers();
+    Main.Neuron._container[this.code] = this;
+};
+
+Main.Neuron._NEURONCOUNTER = 0;
+
+Main.Neuron._container = {};
+
+Main.Neuron.prototype.destroy = function() {
+    for (var i in this.GUI.elems) {
+        this.GUI.elems[i].remove();
+    }
+    delete Main.Neuron._container[this.code];
+};
+
+Main.Neuron.prototype._addEventHandlers = function() {
+    //Add selection on click.
+    var neuron = this;
+    function clickHandler(e) {
+        if (!neuron.isSelected() && !Main.toolbar.data("selected")) {
+            Main.Selection.add(neuron);
+            Main.weightOrThresholdSetter.removeClass("hidden")
+                .find("input").val(neuron._threshold).focus();
+            Main.weightOrThresholdSetter.find("span.add-on>strong").text("Threshold:");
+            Main.statusbar.text("Neuron " + neuron.code + " selected.");
+        }
+        else {
+            Main.Selection.remove(neuron);
+            Main.weightOrThresholdSetter.addClass("hidden");
+        }
+    }
+
+    neuron.GUI.elems.innerCircle.click(clickHandler);
+    neuron.GUI.elems.middleCircle.click(clickHandler);
+
+    //Add drag capability.
+    function dragStart() {
+        this.innerCircle.ox = this.innerCircle.attr("cx");
+        this.innerCircle.oy = this.innerCircle.attr("cy");
+    }
+
+    function dragMove(dx, dy) {
+        if (neuron.isDraggable()) {
+            var newPos = { cx: this.innerCircle.ox + dx, cy: this.innerCircle.oy + dy };
+            this.innerCircle.attr(newPos);
+            this.outerCircle.attr(newPos);
+            this.middleCircle.attr(newPos);
+            this.codeBox.attr({ x: newPos.cx - 2, y: newPos.cy - 32 });
+            this.thresholdBox.attr({ x: newPos.cx - 2, y: newPos.cy + 32 });
+            this.netBox.attr({ x: newPos.cx - 12, y: newPos.cy });
+            this.outputBox.attr({ x: newPos.cx + 12, y: newPos.cy });
+            if (neuron.isSelected()) {
+                this._glow.transform(Raphael.format("t{0},{1}", dx, dy));
+            }
+        }
+    }
+
+    function dragEnd() {
+        delete this.innerCircle.ox;
+        delete this.innerCircle.oy;
+    }
+
+    neuron.GUI.elems.innerCircle.drag(dragMove, dragStart, dragEnd, neuron.GUI.elems);
+};
+
+Main.Neuron.prototype.setDraggable = function(val) {
+    this.GUI.attrs._draggable = (val || val === undefined) ? true : false;
+    return this;
+};
+    
+Main.Neuron.prototype.isDraggable = function() {
+    return this.GUI.attrs._draggable;
+};
+
+Main.Neuron.prototype.select = function() {
+    this.GUI.attrs._selected = true;
+    this.GUI.elems._glow = this.GUI.elems.middleCircle.glow({color: "gold", width: 15});
+    return this;
+};
+
+Main.Neuron.prototype.deselect = function() {
+    this.GUI.attrs._selected = false;
+    this.GUI.elems._glow.remove();
+    delete this.GUI.elems._glow;
+    return this;
+};
+
+Main.Neuron.prototype.isSelected = function() {
+    return this.GUI.attrs._selected;
+};
+
+Main.Neuron.prototype.setThreshold = function(val) {
+    this._threshold = val;
+    this.GUI.elems.thresholdBox.attr("text", "θ:" + val);
+    return this;
+};
+
+Main.Neuron.getAll = function() {
+    var result = [];
+        for (var i in this._container) {
+        result.push(this._container[i]);
+    }
+    return result;
+};
+
+Main.Neuron.getElementByCode = function(code) {
+    return this._container[code];
 };
 
 // Main.Neuron.prototype.fire = function() {

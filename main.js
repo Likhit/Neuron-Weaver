@@ -13,16 +13,7 @@ var Main = {
                 this._container = {};
                 this._container[obj.code] = obj;
             }
-            this.getTypeContext().select(obj);
-        },
-
-        getTypeContext: function() {
-            switch(this.type) {
-                case "Neuron":
-                    return Main.Neuron;
-                case "Connection":
-                    return Main.Connection;
-            }
+            obj.select();
         },
 
         getAll: function() {
@@ -37,14 +28,13 @@ var Main = {
             if (this.type === obj.type) {
                 delete this._container[obj.code];
             }
-            this.getTypeContext().deselect(obj);
+            obj.deselect();
         },
 
         clear: function() {
             var objs = this.getAll();
-            var typeContext = this.getTypeContext();
             for (var i = 0; i < objs.length; i++) {
-                typeContext.deselect(objs[i]);
+                objs[i].deselect();
             }
             this._container = {};
             this.type = "";
