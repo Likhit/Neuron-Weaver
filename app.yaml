@@ -53,8 +53,8 @@ handlers:
 - url: /css
   static_dir: css
 
-- url: /js
-  static_dir: js
+- url: /js/vendor
+  static_dir: js/vendor
 
 - url: /img
   static_dir: img

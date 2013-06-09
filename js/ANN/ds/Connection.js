@@ -2,6 +2,7 @@ Main.Connection = function(paper, x, y) {
     this.to = NaN;
     this.from = NaN;
     this.weight = 0;
+    this.length = 1;
     this.code = Main.Connection._CONNECTIONCOUNTER++;
     this.GUI = {
         attrs: {_selected: false},
@@ -10,14 +11,15 @@ Main.Connection = function(paper, x, y) {
     this.type = "Connection";
 
     this.GUI.elems.path = paper.path(Raphael.format("M{0},{1}", x, y)).attr({
-        "stroke": "#e0e0e0",
+        "stroke": "#555",
         "stroke-width": 2
     });
 
     this.GUI.elems.weightBox = paper.text(x + 10, y + 20, "").attr({
         "font-family": "Times New Roman",
         "font-weight": 900,
-        "font-size": 12
+        "font-size": 12,
+        "fill": "#ddd"
     }).hide();
 
     for (var i in this.GUI.elems) {
@@ -57,7 +59,7 @@ Main.Connection.prototype.set = function(attr, val) {
             if (val && val.type === "Neuron") {
                 val.setDraggable(false);
                 this.from = val.code;
-                this.GUI.elems.path.attr("stroke", "#a0a0a0");
+                this.GUI.elems.path.attr("stroke", "#111");
             }
             break;
         case "to":
@@ -65,7 +67,7 @@ Main.Connection.prototype.set = function(attr, val) {
                 val.setDraggable(false);
                 this.to = val.code;
                 this.GUI.elems.path.attr({
-                    "stroke": "#000",
+                    "stroke": "#a0a0a0",
                     "arrow-end": "classic-wide-long"
                 });
                 var length = this.GUI.elems.path.getTotalLength();
@@ -85,6 +87,9 @@ Main.Connection.prototype.set = function(attr, val) {
                 title: Raphael.fullfill("Connection {code}\n►To: {to}\n►From: {from}\n►Weight: {weight}", this)
             });
             break;
+        case "length":
+            this.length = val;
+            break;
     }
 };
 
@@ -92,16 +97,19 @@ Main.Connection.prototype._addEventHandlers = function() {
     var connection = this;
     //Add selection on click.
     function clickHandler(e) {
-        if (!connection.isSelected() && !Main.toolbar.data("selected")) {
+        if (!connection.isSelected() && !Main.canvas.data("current-tool")) {
             Main.Selection.add(connection);
-            Main.weightOrThresholdSetter.removeClass("hidden")
-                .find("input").val(connection.weight).focus();
-            Main.weightOrThresholdSetter.find("span.add-on>strong").text("Weight:");
-            Main.statusbar.text("Connection from " + connection.from + " to " + connection.to + " selected.");
+            if (Main.connectionSettingsForm.hasClass("hide")) {
+                var form = Main.connectionSettingsForm.removeClass("hide");
+                form.find("#length-value").val(connection.length);
+                form.find("#weight-value").val(connection.weight).focus();
+            }
         }
         else {
             Main.Selection.remove(connection);
-            Main.weightOrThresholdSetter.addClass("hidden");
+            if (Main.Selection.getLength() === 0) {
+                Main.connectionSettingsForm.addClass("hide");
+            }
         }
     }
 
@@ -137,15 +145,15 @@ Main.Connection.prototype.setWeight = function(val) {
 
 Main.Connection.prototype.select = function() {
     this.GUI.attrs._selected = true;
-    this.GUI.elems.weightBox.attr("fill", "blue");
-    this.GUI.elems.path.attr("stroke", "blue");
+    this.GUI.elems.weightBox.attr("fill", "#DAD085");
+    this.GUI.elems.path.attr("stroke", "#DAD085");
     return this;
 };
 
 Main.Connection.prototype.deselect = function() {
     this.GUI.attrs._selected = false;
-    this.GUI.elems.weightBox.attr("fill", "black");
-    this.GUI.elems.path.attr("stroke", "black");
+    this.GUI.elems.weightBox.attr("fill", "#ddd");
+    this.GUI.elems.path.attr("stroke", "#a0a0a0");
     return this;
 };
 
