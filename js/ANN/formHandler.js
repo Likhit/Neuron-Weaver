@@ -28,7 +28,7 @@
         var threshold = parseFloat(Main.neuronSettingsForm.find("#threshold-value").val(), 10);
         var selectedNeurons = Main.Selection.getAll();
         for (var i = 0, l = selectedNeurons.length; i < l; i++) {
-            selectedNeurons[i].setThreshold(threshold);
+            selectedNeurons[i].set("threshold", threshold);
         }
 
         Main.neuronSettingsForm.addClass("hide");

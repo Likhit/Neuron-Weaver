@@ -4,26 +4,24 @@ Main.Connection = function(paper, x, y) {
     this.weight = 0;
     this.length = 1;
     this.code = Main.Connection._CONNECTIONCOUNTER++;
-    this.GUI = {
-        attrs: {_selected: false},
-        elems: {}
-    };
+    this._selected = false;
     this.type = "Connection";
+    this.GUI = {};
 
-    this.GUI.elems.path = paper.path(Raphael.format("M{0},{1}", x, y)).attr({
+    this.GUI.path = paper.path(Raphael.format("M{0},{1}", x, y)).attr({
         "stroke": "#555",
         "stroke-width": 2
     });
 
-    this.GUI.elems.weightBox = paper.text(x + 10, y + 20, "").attr({
+    this.GUI.weightBox = paper.text(x + 10, y + 20, "").attr({
         "font-family": "Times New Roman",
         "font-weight": 900,
         "font-size": 12,
         "fill": "#ddd"
     }).hide();
 
-    for (var i in this.GUI.elems) {
-        this.GUI.elems[i].data("parent", this);
+    for (var i in this.GUI) {
+        this.GUI[i].data("parent", this);
     }
 
     Main.Connection._container[this.code] = this;
@@ -35,8 +33,8 @@ Main.Connection._CONNECTIONCOUNTER = 0;
 Main.Connection._container = {};
 
 Main.Connection.prototype.destroy = function() {
-    for (var i in this.GUI.elems) {
-        this.GUI.elems[i].remove();
+    for (var i in this.GUI) {
+        this.GUI[i].remove();
     }
     try {
         Main.Neuron.getElementByCode(this.to).setDraggable();
@@ -48,8 +46,8 @@ Main.Connection.prototype.destroy = function() {
 };
 
 Main.Connection.prototype.extendPathTo = function(x, y) {
-    var pathStr = this.GUI.elems.path.attr("path");
-    this.GUI.elems.path.attr("path", pathStr + Raphael.format("L{0},{1}", x, y));
+    var pathStr = this.GUI.path.attr("path");
+    this.GUI.path.attr("path", pathStr + Raphael.format("L{0},{1}", x, y));
     return this;
 };
 
@@ -59,37 +57,52 @@ Main.Connection.prototype.set = function(attr, val) {
             if (val && val.type === "Neuron") {
                 val.setDraggable(false);
                 this.from = val.code;
-                this.GUI.elems.path.attr("stroke", "#111");
+                this.GUI.path.attr("stroke", "#111");
             }
             break;
         case "to":
             if (val && val.type === "Neuron" && !isNaN(this.from)) {
                 val.setDraggable(false);
                 this.to = val.code;
-                this.GUI.elems.path.attr({
+                this.GUI.path.attr({
                     "stroke": "#a0a0a0",
                     "arrow-end": "classic-wide-long"
                 });
-                var length = this.GUI.elems.path.getTotalLength();
-                var midPoint = this.GUI.elems.path.getPointAtLength(length/2);
-                this.GUI.elems.weightBox.attr({
+                var length = this.GUI.path.getTotalLength();
+                var midPoint = this.GUI.path.getPointAtLength(length/2);
+                this.GUI.weightBox.attr({
                     text: "W: 0",
                     x: midPoint.x,
                     y: midPoint.y - 8,
-                    title: Raphael.fullfill("Connection {code}\n►To: {to}\n►From: {from}\n►Weight: {weight}", this)
+                    title: Raphael.fullfill("Connection {code}\n►To: {to}\n►From: {from}\n►Weight: {weight}\n►length: {length}", this)
                 }).show();
             }
             break;
         case "weight":
             this.weight = val;
-            this.GUI.elems.weightBox.attr({
+            this.GUI.weightBox.attr({
                 "text": "W: " + val,
-                title: Raphael.fullfill("Connection {code}\n►To: {to}\n►From: {from}\n►Weight: {weight}", this)
+                title: Raphael.fullfill("Connection {code}\n►To: {to}\n►From: {from}\n►Weight: {weight}\n►length: {length}", this)
             });
             break;
         case "length":
             this.length = val;
             break;
+    }
+};
+
+Main.Connection.prototype.get = function(attr) {
+    switch(attr) {
+        case "from":
+            return this.from;
+        case "to":
+            return this.to;
+        case "weight":
+            return this.weight;
+        case "length":
+            return this.length;
+        case "code":
+            return this.code;
     }
 };
 
@@ -113,8 +126,8 @@ Main.Connection.prototype._addEventHandlers = function() {
         }
     }
 
-    connection.GUI.elems.weightBox.click(clickHandler);
-    connection.GUI.elems.path.click(clickHandler);
+    connection.GUI.weightBox.click(clickHandler);
+    connection.GUI.path.click(clickHandler);
 
     //Add drag capability on weightBox.
     function dragStart() {
@@ -134,36 +147,30 @@ Main.Connection.prototype._addEventHandlers = function() {
         delete this.oy;
     }
 
-    connection.GUI.elems.weightBox.drag(dragMove, dragStart, dragEnd);
-};
-
-Main.Connection.prototype.setWeight = function(val) {
-    this.weight = val;
-    this.GUI.elems.weightBox.attr("text", "W: " + val);
-    return this;
+    connection.GUI.weightBox.drag(dragMove, dragStart, dragEnd);
 };
 
 Main.Connection.prototype.select = function() {
-    this.GUI.attrs._selected = true;
-    this.GUI.elems.weightBox.attr("fill", "#DAD085");
-    this.GUI.elems.path.attr("stroke", "#DAD085");
+    this._selected = true;
+    this.GUI.weightBox.attr("fill", "#DAD085");
+    this.GUI.path.attr("stroke", "#DAD085");
     return this;
 };
 
 Main.Connection.prototype.deselect = function() {
-    this.GUI.attrs._selected = false;
-    this.GUI.elems.weightBox.attr("fill", "#ddd");
-    this.GUI.elems.path.attr("stroke", "#a0a0a0");
+    this._selected = false;
+    this.GUI.weightBox.attr("fill", "#ddd");
+    this.GUI.path.attr("stroke", "#a0a0a0");
     return this;
 };
 
 Main.Connection.prototype.isSelected = function() {
-    return this.GUI.attrs._selected;
+    return this._selected;
 };
 
 Main.Connection.getAll = function() {
     var result = [];
-        for (var i in this._container) {
+    for (var i in this._container) {
         result.push(this._container[i]);
     }
     return result;
@@ -171,4 +178,4 @@ Main.Connection.getAll = function() {
 
 Main.Connection.getElementByCode = function(code) {
     return this._container[code];
-}
+};
