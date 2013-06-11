@@ -11,12 +11,12 @@ $(function() {
     Main.neuronSettingsForm = $("#neuron-settings-form");
     Main.connectionSettingsForm = $("#connection-settings-form");
 
-    {% include "js/ANN/formHandler.js" %}
-    {% include "js/ANN/buildBar.js" %}
+    {% include "js/GUI/formHandler.js" %}
+    {% include "js/GUI/buildBar.js" %}
 });
 
-{% include "js/ANN/ds/Selection.js" %}
-{% include "js/ANN/ds/Activations.js" %}
-{% include "js/ANN/ds/Neuron.js" %}
-{% include "js/ANN/ds/Connection.js" %}
-{% include "js/ANN/ds/NeuralNetwork.js" %}
+{% include "js/GUI/Selection.js" %}
+{% include "js/GUI/Activations.js" %}
+{% include "js/GUI/Neuron.js" %}
+{% include "js/GUI/Connection.js" %}
+{% include "js/GUI/NeuralNetwork.js" %}
