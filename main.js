@@ -1,4 +1,5 @@
 var Main = {};
+var ANN = {};
 
 $(function() {
     $("body").removeClass("hide");
