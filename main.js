@@ -17,7 +17,11 @@ $(function() {
 });
 
 {% include "js/GUI/Selection.js" %}
-{% include "js/GUI/Activations.js" %}
 {% include "js/GUI/Neuron.js" %}
 {% include "js/GUI/Connection.js" %}
 {% include "js/GUI/NeuralNetwork.js" %}
+
+
+{% include "js/ANN/Activations.js" %}
+{% include "js/ANN/Neuron.js" %}
+{% include "js/ANN/NeuralNetwork.js" %}
