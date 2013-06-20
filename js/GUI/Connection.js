@@ -169,11 +169,7 @@ Main.Connection.prototype.isSelected = function() {
 };
 
 Main.Connection.getAll = function() {
-    var result = [];
-    for (var i in this._container) {
-        result.push(this._container[i]);
-    }
-    return result;
+    return this._container;
 };
 
 Main.Connection.getElementByCode = function(code) {

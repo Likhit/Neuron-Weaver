@@ -1,7 +1,7 @@
 ANN.NeuralNetwork = function(obj) {
     this.neurons = obj.neurons; //{code: neuron}
     this.matrix  = obj.matrix;  //[from.code][to.code] -> {connectionProperties}
-    this.inputNeurons  = obj.inputNodes; //[neurons]
+    this.inputNeurons  = obj.inputNeurons; //[neurons]
     this.outputNeurons = obj.outputNeurons; //[neurons]
 };
 

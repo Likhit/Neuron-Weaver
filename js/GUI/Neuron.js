@@ -219,11 +219,7 @@ Main.Neuron.prototype.get = function(attr) {
 };
 
 Main.Neuron.getAll = function() {
-    var result = [];
-        for (var i in this._container) {
-        result.push(this._container[i]);
-    }
-    return result;
+    return this._container;
 };
 
 Main.Neuron.getElementByCode = function(code) {
