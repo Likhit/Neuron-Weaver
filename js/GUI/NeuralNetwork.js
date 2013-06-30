@@ -2,7 +2,7 @@ Main.NeuralNetwork = function() {
     this.network = this.createNetwork();
 };
 
-Main.NeuralNetwork.createNetwork = function() {
+Main.NeuralNetwork.prototype.createNetwork = function() {
     var neurons = Main.Neuron.getAll();
     var connections = Main.Connection.getAll();
 

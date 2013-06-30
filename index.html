@@ -33,14 +33,14 @@
             <div class="navbar-inner">
                 <ul class="nav">
                     <li><a href="#" class="brand">NEURON WEAVER</a></li>
-                    <li class="active"><a href="#">BUILD</a></li>
-                    <li><a href="#">TRAIN</a></li>
-                    <li><a href="#">RUN</a></li>
+                    <li class="active"><a id="build-tab-header" href="#">BUILD</a></li>
+                    <li><a id="train-tab-header" href="#">TRAIN</a></li>
+                    <li><a id="run-tab-header" href="#">RUN</a></li>
                 </ul>
             </div>
         </div>        
 
-        <div class="container-fluid">
+        <div id="build-tab" class="container-fluid">
             <div class="row-fluid">
                 <div id="tools" class="span1">
                     <div class="tool" id="neuron" title="Insert a neuron.">
@@ -65,111 +65,12 @@
                         <div id="settings-button" title="Edit settings">
                             <i class="icon-edit icon-white" data-toggle="modal" data-target="#change-network-name"></i> Settings
                         </div>
-                        <!-- Settings form -->
-                        <form id="global-settings-form" class="input-form hide">
-                            <legend>Settings</legend>
-                            <div class="control-group">
-                                <h5>Network</h5>
-                                <div class="control">
-                                    <label for="network-name">
-                                        Network name:
-                                    </label>
-                                    <input id="network-name" type="text" class="flat">
-                                </div>
-                                <div class="control">
-                                    <label for="network-description">
-                                        Network description:
-                                    </label>
-                                    <textarea id="network-description" class="flat" rows="2"></textarea>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <h5>Neuron</h5>
-                                <div class="control">
-                                    <label for="threshold-value">
-                                        Default Threshold:
-                                    </label>
-                                    <input id="threshold-value" type="text" class="flat">
-                                </div>
-                                <div class="control">
-                                    <label for="activation-type">Default activation function:</label>
-                                    <select class="input flat" id="activation-type">
-                                        <option value="1">--- keep same ---</option>
-                                        <option value="1">Sigmoid</option>
-                                        <option value="2">Thresholding</option>
-                                        <option value="2">Custom</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <h5>Connection</h5>
-                                <div class="control">
-                                    <label for="weight-value">
-                                        Default Weight:
-                                    </label>
-                                    <input id="weight-value" type="text" class="flat">
-                                </div>
-                            </div>
-                            <div class="control pull-right">
-                                <button class="btn btn-primary flat" type="submit">Save</button>
-                                <button class="btn flat">Cancel</button>
-                            </div>
-                        </form>
-                        <!-- Neuron settings forms -->
-                        <form id="neuron-settings-form" class="input-form hide">
-                            <legend>Neuron settings</legend>
-                            <div class="control-group">
-                                <div class="control">
-                                    <label for="threshold-value">
-                                        Threshold:
-                                    </label>
-                                    <input id="threshold-value" type="text" class="flat">
-                                </div>
-                                <div class="control">
-                                    <label for="activation-type">Activation function:</label>
-                                    <select class="input flat" id="activation-type">
-                                        <option value="1">--- keep same ---</option>
-                                        <option value="1">Sigmoid</option>
-                                        <option value="2">Thresholding</option>
-                                        <option value="2">Custom</option>
-                                    </select>
-                                </div>
-                                <div class="control">
-                                    <label>Add charecteristics:</label>
-                                    <div class="inner-controls">
-                                        <label class="checkbox"><input id="input-trait" type="checkbox"> Input neuron</label>
-                                        <label class="checkbox"><input id="output-trait" type="checkbox"> Output neuron</label>
-                                    </div>
-                                </div>
-                                <div class="control pull-right">
-                                    <button class="btn btn-primary flat" type="submit">Save</button>
-                                    <button class="btn flat">Cancel</button>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- Connection settings forms -->
-                        <form id="connection-settings-form" class="input-form hide">
-                            <legend>Connection settings</legend>
-                            <div class="control-group">
-                                <div class="control">
-                                    <label for="weight-value">
-                                        Weight:
-                                    </label>
-                                    <input id="weight-value" type="text" class="flat">
-                                </div>
-                                <div class="control">
-                                    <label for="length-value">
-                                        Connection length:
-                                    </label>
-                                    <input id="length-value" type="text" class="flat">
-                                </div>
-                                <div class="control pull-right">
-                                    <button class="btn btn-primary flat" type="submit">Save</button>
-                                    <button class="btn flat">Cancel</button>
-                                </div>
-                            </div>
-                        </form>
+                        {% include "templates/forms/build.html" %}
                     </div>
+                </div>
+                <div id="run-area" class="hide">
+                    <div id="run-content" class="span7"></div>
+                    <div id="run-tools" class="span1"></div>
                 </div>
             </div>
         </div>

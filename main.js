@@ -3,6 +3,7 @@ var ANN = {};
 
 $(function() {
     $("body").removeClass("hide");
+    {% include "js/GUI/changeTab.js" %}
 
     Main.paper = Raphael("canvas-container", 0.93*screen.availWidth, 0.80*screen.availHeight);
 
