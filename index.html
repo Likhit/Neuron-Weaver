@@ -17,7 +17,7 @@
         <meta property="og:image" content="http://www.stringtensor.appspot.com/favicon.ico">
         <meta property="og:description" content="Create, run and train neural networks using an intuitive grahical user interface.">
         
-        <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="css/pure-min.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
 
@@ -29,18 +29,53 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to run this application.</p>
         <![endif]-->
 
-        <div class="navbar navbar-inverse">
-            <div class="navbar-inner">
-                <ul class="nav">
-                    <li><a href="#" class="brand">NEURON WEAVER</a></li>
-                    <li class="active"><a id="build-tab-header" href="#">BUILD</a></li>
-                    <li><a id="train-tab-header" href="#">TRAIN</a></li>
-                    <li><a id="run-tab-header" href="#">RUN</a></li>
-                </ul>
-            </div>
-        </div>        
+        <nav id="navbar" class="pure-menu pure-menu-open pure-menu-horizontal inverse">
+            <ul>
+                <li><a href="#" class="brand">NEURON WEAVER</a></li>
+                <li class="pure-menu-selected"><a id="build-tab-header" href="#">BUILD</a></li>
+                <li><a id="train-tab-header" href="#">TRAIN</a></li>
+                <li><a id="run-tab-header" href="#">RUN</a></li>
+            </ul>
+        </nav>
 
-        <div id="build-tab" class="container-fluid">
+        <div id="tab-container" class="pure-g">
+            <div class="pure-u-1-12">
+                <div id="tools" class="pure-menu pure-menu-open">
+                    <ul>
+                        <li>
+                            <div class="tool" id="neuron" title="Insert a neuron.">
+                                <img src="/img/hebb1.png" alt="Neuron">
+                                <div>Neuron</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="tool" id="eraser" title="Erase a component.">
+                                <img src="/img/eraser1.png" alt="Eraser">
+                                <div>Eraser</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="tool" id="connect" title="Connect two neurons.">
+                                <img src="/img/connection1.png" alt="Connection">
+                                <div>Connection</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="canvas-area" class="pure-u-11-12">
+                <div class="network-name">
+                    <p class="text-center">Title</p>
+                </div>
+                <div id="canvas-container">
+                    <div id="settings-button" title="Edit settings">
+                        <i class="icon-edit icon-white" data-toggle="modal" data-target="#change-network-name"></i> Settings
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div id="build-tab" class="container-fluid">
             <div class="row-fluid">
                 <div id="tools" class="span1">
                     <div class="tool" id="neuron" title="Insert a neuron.">
@@ -61,11 +96,10 @@
                         <p class="text-center">Title</p>
                     </div>
                     <div id="canvas-container">
-                        <!-- Setting form opener -->
                         <div id="settings-button" title="Edit settings">
                             <i class="icon-edit icon-white" data-toggle="modal" data-target="#change-network-name"></i> Settings
                         </div>
-                        {% include "templates/forms/build.html" %}
+                        
                     </div>
                 </div>
                 <div id="run-area" class="hide">
@@ -73,28 +107,13 @@
                     <div id="run-tools" class="span1"></div>
                 </div>
             </div>
-        </div>
-
-        <!-- Modal for changing current network's name -->
-        <!-- <div id="change-network-name" class="modal hide fade" tabindex="-1" data-backdrop="false"
-            role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                Enter the new name of the network:
-            </div>
-            <div class="modal-body">
-                <form class="form-inline">
-                    <input type="text" class="input-medium flat">
-                    <button class="btn btn-primary flat">Rename</button>
-                </form>
-            </div>
         </div> -->
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/vendor/raphael-min.js"></script>
-        <script src="js/vendor/bootstrap.min.js"></script>
+        <!--<script src="js/vendor/bootstrap.min.js"></script>-->
         <script src="js/vendor/plugins.js"></script>
         
         <script src="main.js"></script>
